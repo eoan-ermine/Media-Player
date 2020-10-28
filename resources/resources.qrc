@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="/">
+    <file>note-8.svg</file>
+    <file>note-4.svg</file>
+    <file>note-32.svg</file>
+    <file>note-2.svg</file>
+    <file>note-16.svg</file>
+    <file>note-1.svg</file>
+    <file>icons/media-skip-backward.svg</file>
+    <file>icons/media-playback-start.svg</file>
+    <file>icons/media-playback-loop.svg</file>
+    <file>icons/edit-undo.svg</file>
+    <file>icons/edit-redo.svg</file>
+    <file>icons/document-save.svg</file>
+    <file>icons/document-open.svg</file>
+    <file>icons/document-new.svg</file>
+  </qresource>
+</RCC>
