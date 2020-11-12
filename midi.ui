@@ -18,15 +18,21 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,3">
       <item>
-       <widget class="QTreeWidget" name="treeWidget"/>
+       <widget class="QTreeWidget" name="tree_widget">
+        <column>
+         <property name="text">
+          <string>Текущий плейлист</string>
+         </property>
+        </column>
+       </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="10,1,1">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
         <item>
-         <widget class="QWidget" name="widget" native="true"/>
+         <widget class="QStackedWidget" name="stacked_widget"/>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1">
           <item>
            <widget class="QSlider" name="horizontalSlider">
             <property name="orientation">
@@ -95,7 +101,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources/resources.qrc">
-              <normaloff>:/Emojione_BW_1F500.svg</normaloff>:/Emojione_BW_1F500.svg</iconset>
+              <normaloff>:/playlist-shuffle</normaloff>:/playlist-shuffle</iconset>
             </property>
            </widget>
           </item>
@@ -106,7 +112,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources/resources.qrc">
-              <normaloff>:/Emojione_BW_1F501.svg</normaloff>:/Emojione_BW_1F501.svg</iconset>
+              <normaloff>:/playlist-repeat</normaloff>:/playlist-repeat</iconset>
             </property>
            </widget>
           </item>
@@ -124,7 +130,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources/resources.qrc">
-              <normaloff>:/Emojione_BW_23F9.svg</normaloff>:/Emojione_BW_23F9.svg</iconset>
+              <normaloff>:/playback-stop</normaloff>:/playback-stop</iconset>
             </property>
            </widget>
           </item>
@@ -135,7 +141,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources/resources.qrc">
-              <normaloff>:/Emojione_BW_23EE.svg</normaloff>:/Emojione_BW_23EE.svg</iconset>
+              <normaloff>:/skip-backward</normaloff>:/skip-backward</iconset>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonIconOnly</enum>
@@ -185,7 +191,7 @@
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset resource="resources/resources.qrc">
+             <iconset>
               <normaloff>:/Emojione_BW_23F8.svg</normaloff>:/Emojione_BW_23F8.svg</iconset>
             </property>
             <property name="checkable">
@@ -200,7 +206,7 @@
             </property>
             <property name="icon">
              <iconset resource="resources/resources.qrc">
-              <normaloff>:/Emojione_BW_23ED.svg</normaloff>:/Emojione_BW_23ED.svg</iconset>
+              <normaloff>:/skip-forward</normaloff>:/skip-forward</iconset>
             </property>
            </widget>
           </item>
@@ -252,9 +258,9 @@
     <property name="title">
      <string>Медиа</string>
     </property>
-    <addaction name="action_2"/>
-    <addaction name="action_53"/>
-    <addaction name="action_54"/>
+    <addaction name="open_file_action"/>
+    <addaction name="open_files_action"/>
+    <addaction name="open_directory_action"/>
     <addaction name="action_56"/>
     <addaction name="separator"/>
     <addaction name="action_58"/>
@@ -353,233 +359,14 @@
    <addaction name="menu_7"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action_create">
-   <property name="text">
-    <string>Создать</string>
-   </property>
-  </action>
-  <action name="action_2">
+  <action name="open_file_action">
    <property name="text">
     <string>Открыть файл</string>
-   </property>
-  </action>
-  <action name="action_4">
-   <property name="text">
-    <string>Сохранить в локальной базе данных</string>
-   </property>
-  </action>
-  <action name="action_5">
-   <property name="text">
-    <string>Экспортировать</string>
-   </property>
-  </action>
-  <action name="action_7">
-   <property name="text">
-    <string>Выйти из приложения</string>
-   </property>
-  </action>
-  <action name="action_8">
-   <property name="text">
-    <string>Отменить</string>
-   </property>
-  </action>
-  <action name="action_9">
-   <property name="text">
-    <string>Повторить</string>
-   </property>
-  </action>
-  <action name="action_11">
-   <property name="text">
-    <string>Вырезать</string>
-   </property>
-  </action>
-  <action name="action_12">
-   <property name="text">
-    <string>Скопировать</string>
-   </property>
-  </action>
-  <action name="action_13">
-   <property name="text">
-    <string>Вставить</string>
-   </property>
-  </action>
-  <action name="action_14">
-   <property name="text">
-    <string>Удалить</string>
-   </property>
-  </action>
-  <action name="action_16">
-   <property name="text">
-    <string>Выделить все</string>
-   </property>
-  </action>
-  <action name="action_17">
-   <property name="text">
-    <string>Удалить</string>
-   </property>
-  </action>
-  <action name="action_19">
-   <property name="text">
-    <string>Настройки</string>
    </property>
   </action>
   <action name="action_20">
    <property name="text">
     <string>Скорость</string>
-   </property>
-  </action>
-  <action name="action_Qt">
-   <property name="text">
-    <string>О Qt</string>
-   </property>
-  </action>
-  <action name="action_MusicXML">
-   <property name="text">
-    <string>О MusicXML</string>
-   </property>
-  </action>
-  <action name="add_file">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/document-new.svg</normaloff>:/icons/document-new.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
-   </property>
-  </action>
-  <action name="open_file">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/document-open.svg</normaloff>:/icons/document-open.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="save_file">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/document-save.svg</normaloff>:/icons/document-save.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="action_undo">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/edit-undo.svg</normaloff>:/icons/edit-undo.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="action_redo">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/edit-redo.svg</normaloff>:/icons/edit-redo.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+Z</string>
-   </property>
-  </action>
-  <action name="action_play">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/media-playback-start.svg</normaloff>:/icons/media-playback-start.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="shortcut">
-    <string>Space</string>
-   </property>
-  </action>
-  <action name="action_skip_backward">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/media-skip-backward.svg</normaloff>:/icons/media-skip-backward.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </action>
-  <action name="action_playback_loop">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/icons/media-playback-loop.svg</normaloff>:/icons/media-playback-loop.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </action>
-  <action name="action_note32">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/note-32.svg</normaloff>:/note-32.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </action>
-  <action name="action_note16">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/note-16.svg</normaloff>:/note-16.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </action>
-  <action name="action_note8">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/note-8.svg</normaloff>:/note-8.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </action>
-  <action name="action_note4">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/note-4.svg</normaloff>:/note-4.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </action>
-  <action name="action_note2">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/note-2.svg</normaloff>:/note-2.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </action>
-  <action name="action_note1">
-   <property name="icon">
-    <iconset resource="resources/resources.qrc">
-     <normaloff>:/note-1.svg</normaloff>:/note-1.svg</iconset>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </action>
   <action name="action_Qt_2">
@@ -732,13 +519,16 @@
     <string>Запись</string>
    </property>
   </action>
-  <action name="action_53">
+  <action name="open_files_action">
    <property name="text">
     <string>Открыть файлы</string>
    </property>
   </action>
-  <action name="action_54">
+  <action name="open_directory_action">
    <property name="text">
+    <string>Открыть папку</string>
+   </property>
+   <property name="toolTip">
     <string>Открыть папку</string>
    </property>
   </action>

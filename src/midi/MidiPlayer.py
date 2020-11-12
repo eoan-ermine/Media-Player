@@ -1,5 +1,6 @@
 import pygame
 
+
 class MidiPlayer:
     class __MidiPlayer:
         def __init__(self, filename):
@@ -37,6 +38,7 @@ class MidiPlayer:
             return pygame.mixer.music.get_busy()
 
     instance = None
+
     def __new__(cls, *args, **kwargs):
         if not MidiPlayer.instance:
             frequency = 44100
@@ -48,10 +50,13 @@ class MidiPlayer:
 
             MidiPlayer.instance = MidiPlayer.__MidiPlayer(*args, **kwargs)
         return MidiPlayer.instance
+
     def __getattr__(self, name):
         return getattr(self.instance, name)
+
     def __setattr__(self, name):
         return setattr(self.instance, name)
+
 
 if __name__ == "__main__":
     import sys
