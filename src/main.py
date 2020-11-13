@@ -1,4 +1,5 @@
 import sys
+import resources
 
 from src.gui.music_player import MusicPlayer
 from PyQt5.QtWidgets import QApplication
