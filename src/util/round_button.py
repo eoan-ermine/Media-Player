@@ -55,6 +55,6 @@ class RoundButton(QToolButton):
 
         painter.setPen(QPen(self.pen(option), 1.5))
         painter.setBrush(self.brush(option))
-        painter.drawEllipse(self.rect().adjusted(1, 1, -1, -1));
+        painter.drawEllipse(self.rect().adjusted(1, 1, -1, -1))
 
         self.style().drawControl(QStyle.CE_ToolButtonLabel, option, painter, self)
