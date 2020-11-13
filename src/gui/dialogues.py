@@ -6,21 +6,23 @@ from src.util.utils import *
 from src.gui.input_manager import InputManager
 
 
-def open_file_dialog(hint="Select file to open", dir="", filter=";;".join([IMAGE_FILTER, VIDEO_FILTER, AUDIO_FILTER])):
+def open_file_dialog(hint="Select file to open", dir="", filter=";;".join([IMAGE_FILTER, VIDEO_FILTER, AUDIO_FILTER]),
+                     process=lambda k: InputManager.get_instance().add_file(k, get_format(k))):
     filename, _ = QFileDialog.getOpenFileName(None, hint, dir, filter)
     if filename:
-        InputManager.get_instance().add_file(filename, get_format(filename))
+        process(filename)
 
 
-def open_files_dialog() -> [str]:
+def open_files_dialog():
     dialog = OpenFilesDialog()
     dialog.exec_()
 
 
-def open_directory_dialog(hint="Select directory to open", dir="", options=QFileDialog.ShowDirsOnly):
+def open_directory_dialog(hint="Select directory to open", dir="", options=QFileDialog.ShowDirsOnly,
+                          process=lambda k: InputManager.get_instance().add_folder(k)):
     directory = QFileDialog.getExistingDirectory(None, hint, dir, options)
     if directory:
-        InputManager.get_instance().add_folder(directory)
+        process(directory)
 
 
 # Already implemented: Close Button
