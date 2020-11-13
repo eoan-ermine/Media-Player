@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="/">
+    <file>edit-copy.svg</file>
+    <file>play_icon.svg</file>
+    <file>pause_icon.svg</file>
     <file alias="skip-forward">Breezeicons-actions-22-media-skip-forward.svg</file>
     <file alias="skip-backward">Breezeicons-actions-22-media-skip-backward.svg</file>
     <file alias="playlist-shuffle">Breezeicons-actions-22-media-playlist-shuffle.svg</file>

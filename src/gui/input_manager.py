@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QUrl, QIODevice, QFile, QDataStream, QVariant, QTimer
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer, QAudioProbe
 
+from src.util.playlist_item import PlaylistItemDataRole
 from src.util.utils import *
 from src.gui.ui_manager import UIManager
 
@@ -23,6 +24,48 @@ class InputManager:
             if not self.playlist:
                 self.init_state()
 
+            self.init_signals()
+
+    def init_signals(self):
+        self.player.durationChanged.connect(self.duration_changed_slot)
+        self.player.positionChanged.connect(self.position_changed_slot)
+        self.player.currentMediaChanged.connect(self.current_media_changed_slot)
+
+        self.player.stateChanged.connect(self.state_changed_slot)
+
+    def set_position(self, new_pos):
+        self.player.setPosition(new_pos)
+
+    def get_duration(self):
+        return self.player.duration()
+
+    def get_position(self):
+        return self.player.position()
+
+    def duration_changed_slot(self, duration):
+        self.ui_manager.set_position_slider_max_value(duration)
+
+    def position_changed_slot(self, position):
+        self.ui_manager.set_position_slider_value(position)
+
+    def set_volume(self, value):
+        self.player.setVolume(value)
+
+    def current_media_changed_slot(self):
+        self.ui_manager.sync_row(self.get_media_position())
+
+    def state_changed_slot(self, new_state):
+        if new_state == QMediaPlayer.StoppedState or new_state == QMediaPlayer.PausedState:
+            self.ui_manager.change_play_btn_state(False)
+        else:
+            self.ui_manager.change_play_btn_state(True)
+
+    def next_media(self):
+        self.playlist.next()
+
+    def previous_media(self):
+        self.playlist.previous()
+
     @classmethod
     def get_instance(cls, *args, **kwargs):
         if not cls.__instance:
@@ -35,6 +78,7 @@ class InputManager:
 
         self.probe = QAudioProbe()
         self.probe.setSource(self.player)
+        self.probe_connected = False
 
         self.timer = QTimer()
         self.timer.setInterval(100)
@@ -69,20 +113,44 @@ class InputManager:
     def add_media(self, filename: str, format: FILE_FORMAT):
         url = QUrl.fromLocalFile(filename)
 
-        self.playlist.addMedia(QMediaContent(url))
         self.ui_manager.append_playlist(url.fileName(), format)
+        self.playlist.addMedia(QMediaContent(url))
 
     def set_media_position(self, pos):
         self.playlist.setCurrentIndex(pos)
 
-    def play(self, format):
+    def get_media_position(self):
+        return self.playlist.currentIndex()
+
+    def get_current_format(self):
+        position = self.get_media_position()
+        if position == -1:
+            return None
+        item = self.ui_manager.get_list_item(self.get_media_position())
+        return item.data(PlaylistItemDataRole.FORMAT)
+
+    def play(self):
+        format = self.get_current_format()
+        if format == None:
+            return
+        self.ui_manager.change_play_btn_state(True)
         if format == FILE_FORMAT.AUDIO:
             self.probe.audioBufferProbed.connect(self.process_buffer)
+            self.probe_connected = True
         else:
+            self.probe_connected = False
             self.ui_manager.show_video()
         self.player.play()
 
+    def pause(self):
+        self.player.pause()
+
+    def stop(self):
+        self.player.stop()
+
     def process_buffer(self, buffer):
+        if not self.probe_connected:
+            return
         if not self.timer.isActive():
             self.timer.start()
         else:
