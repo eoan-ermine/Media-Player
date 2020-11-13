@@ -18,18 +18,12 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,3">
       <item>
-       <widget class="QTreeWidget" name="tree_widget">
-        <column>
-         <property name="text">
-          <string>Текущий плейлист</string>
-         </property>
-        </column>
-       </widget>
+       <widget class="QListWidget" name="list_widget"/>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="3,0,0">
         <item>
-         <widget class="QStackedWidget" name="stacked_widget"/>
+         <layout class="QVBoxLayout" name="content_layout"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1">

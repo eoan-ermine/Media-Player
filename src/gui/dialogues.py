@@ -28,8 +28,6 @@ def open_directory_dialog(hint="Select directory to open", dir="", options=QFile
         process(directory)
 
 
-# Already implemented: Close Button
-# TODO: Add btn, Remove btn, Browse subtitles btn, Play btn
 class OpenFilesDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
