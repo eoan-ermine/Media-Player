@@ -14,6 +14,9 @@ IMAGE_FILTER = "Images ({})".format(" ".join(["*.{}".format(e) for e in IMAGE_FO
 VIDEO_FILTER = "Videos ({})".format(" ".join(["*.{}".format(e) for e in VIDEO_FORMATS]))
 AUDIO_FILTER = "Audios ({})".format(" ".join(["*.{}".format(e) for e in AUDIO_FORMATS]))
 
+VERSION = "0.0.1"
+REVISION = "0"
+
 
 class FILE_FORMAT(Enum):
     IMAGE = 0,

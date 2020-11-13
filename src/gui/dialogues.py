@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QFileDialog, QMenu
 from PyQt5.QtCore import Qt
 
 from src.util.utils import *
-from src.util.PlaylistWidgetItem import PlaylistItem, PlaylistItemDataRole
+from src.util.playlist_item import PlaylistItem, PlaylistItemDataRole
 
 from src.gui.input_manager import InputManager
 
@@ -78,3 +78,22 @@ class OpenFilesDialog(QDialog):
     def push_to_play(self):
         self.push_to_queue()
         self.input_manager.play()
+
+
+class AboutDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.init_ui()
+        self.init_signals()
+
+    def init_ui(self):
+        uic.loadUi("../about_box.ui", self)
+
+        self.version_label.setText("Version: {}".format(VERSION))
+        self.revision_label.setText("Revision: {}".format(REVISION))
+
+    def init_signals(self):
+        self.buttonBox.accepted.connect(lambda: self.done(0))
+
