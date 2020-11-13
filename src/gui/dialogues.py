@@ -9,8 +9,9 @@ from src.util.PlaylistWidgetItem import PlaylistItem, PlaylistItemDataRole
 from src.gui.input_manager import InputManager
 
 
-def open_file_dialog(hint="Select file to open", dir="", filter=";;".join([IMAGE_FILTER, VIDEO_FILTER, AUDIO_FILTER]),
-                     process=lambda k: InputManager.get_instance().add_file(k, get_format(k))):
+def open_file_dialog(hint="Select file to open", dir="", filter=";;".join([ALL_FILTER, IMAGE_FILTER,
+                                                                           VIDEO_FILTER, AUDIO_FILTER]),
+                     process=lambda k: InputManager.get_instance().add_media(k, get_format(k))):
     filename, _ = QFileDialog.getOpenFileName(None, hint, dir, filter)
     if filename:
         process(filename)
@@ -56,7 +57,7 @@ class OpenFilesDialog(QDialog):
         self.cancel_btn.clicked.connect(lambda: self.done(0))
 
     def file_browse_slot(self):
-        open_file_dialog(process=lambda k: self.file_list.addItem(PlaylistItem(k, get_file_ext(k))))
+        open_file_dialog(process=lambda k: self.file_list.addItem(PlaylistItem(k, get_file_ext(k), get_format(k))))
 
     def remove_file_slot(self):
         self.file_list.takeItem(self.file_list.row(self.file_list.currentItem()))
@@ -64,11 +65,15 @@ class OpenFilesDialog(QDialog):
             self.remove_file_btn.setEnabled(False)
 
     def get_files_to_send(self):
-        return [self.file_list.item(i).data(PlaylistItemDataRole.PATH) for i in range(self.file_list.count())]
+        files = []
+        for i in range(self.file_list.count()):
+            item = self.file_list.item(i)
+            files.append((item.data(PlaylistItemDataRole.PATH), item.data(PlaylistItemDataRole.FORMAT)))
+        return files
 
     def push_to_queue(self):
-        for path in self.get_files_to_send():
-            self.input_manager.add_media(path)
+        for path, format in self.get_files_to_send():
+            self.input_manager.add_media(path, format)
 
     def push_to_play(self):
         self.push_to_queue()

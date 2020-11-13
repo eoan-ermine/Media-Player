@@ -7,6 +7,9 @@ IMAGE_FORMATS = ["bmp", "gif", "jpg", "jpeg", "png", "pbm", "pgm", "ppm", "xbm",
 VIDEO_FORMATS = ["avi", "mkv", "mp4", "flv", "mpeg", "mov", "ts", "m2ts", "wmv", "rm", "rmvb", "ogm", "webm"]
 AUDIO_FORMATS = ["mp3", "flc", "m4a", "aac", "ogg", "3gp", "amr", "ape", "mka", "opus", "wavpack", "musepack"]
 
+FORMATS = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
+
+ALL_FILTER = "All ({})".format(" ".join(["*.{}".format(e) for e in IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS]))
 IMAGE_FILTER = "Images ({})".format(" ".join(["*.{}".format(e) for e in IMAGE_FORMATS]))
 VIDEO_FILTER = "Videos ({})".format(" ".join(["*.{}".format(e) for e in VIDEO_FORMATS]))
 AUDIO_FILTER = "Audios ({})".format(" ".join(["*.{}".format(e) for e in AUDIO_FORMATS]))
@@ -20,7 +23,7 @@ class FILE_FORMAT(Enum):
 
 
 def get_dir_files(path):
-    return [f for f in listdir(path) if isfile(join(path, f))]
+    return [f for f in listdir(path) if isfile(join(path, f)) and get_extension(f) in FORMATS]
 
 
 def get_file_ext(path):

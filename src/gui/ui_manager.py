@@ -3,6 +3,7 @@ from src.util.utils import *
 
 import random
 
+
 class UIManager:
     __instance = None
 
@@ -20,15 +21,16 @@ class UIManager:
         player.setVideoOutput(self.parent.video_widget)
 
     def show_video(self):
-        self.parent.video_widget.show()
+        if self.parent.stacked_widget.currentWidget() != self.parent.video_widget:
+            self.parent.stacked_widget.setCurrentWidget(self.parent.video_widget)
 
-    def append_playlist(self, element):
-        self.parent.list_widget.addItem(PlaylistWidgetItem.PlaylistItem(element, get_file_ext(element)))
+    def append_playlist(self, element, format):
+        self.parent.list_widget.addItem(PlaylistWidgetItem.PlaylistItem(element, get_file_ext(element), format))
 
     def show_equalizer(self):
-        self.parent.stacked_widget.setCurrentWidget(self.parent.equalizer)
+        if self.parent.stacked_widget.currentWidget() != self.parent.equalizer:
+            self.parent.stacked_widget.setCurrentWidget(self.parent.equalizer)
 
     def update_equalizer(self, data):
-        if self.parent.stacked_widget.currentWidget() != self.parent.equalizer:
-            self.show_equalizer()
+        self.show_equalizer()
         self.parent.equalizer.setValues([min(100, e+random.randint(0, 50) if random.randint(0, 5) > 2 else e) for e in data])

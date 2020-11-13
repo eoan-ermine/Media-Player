@@ -44,6 +44,8 @@ class MusicPlayer(QMainWindow):
         self.open_files_action.triggered.connect(self.open_files_action_slot)
         self.open_directory_action.triggered.connect(self.open_directory_action_slot)
 
+        self.list_widget.currentRowChanged.connect(self.row_changed_slot)
+
     @staticmethod
     def open_file_action_slot():
         open_file_dialog()
@@ -55,3 +57,12 @@ class MusicPlayer(QMainWindow):
     @staticmethod
     def open_directory_action_slot():
         open_directory_dialog()
+
+    def row_changed_slot(self, current_row):
+        if current_row < 0:
+            return
+        item = self.list_widget.item(current_row)
+        format = item.data(PlaylistItemDataRole.FORMAT)
+
+        self.input_manager.set_media_position(current_row)
+        self.input_manager.play(format)

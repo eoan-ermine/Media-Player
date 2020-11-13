@@ -4,6 +4,8 @@ from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer, QAud
 from src.util.utils import *
 from src.gui.ui_manager import UIManager
 
+from src.util.utils import FILE_FORMAT
+
 
 class InputManager:
     __instance = None
@@ -41,8 +43,6 @@ class InputManager:
         self.ui_manager.set_output(self.player)
         self.player.setPlaylist(self.playlist)
 
-        self.probe.audioBufferProbed.connect(self.process_buffer)
-
     def load_state(self):
         file = QFile("file.dat")
         file.open(QIODevice.ReadOnly)
@@ -64,23 +64,22 @@ class InputManager:
     def add_folder(self, path: str):
         files = get_dir_files(path)
         for file in files:
-            self.add_file(file, get_format(file))
+            self.add_media(path + "/" + file, get_format(file))
 
-    def add_file(self, filename: str, format: FILE_FORMAT):
-        if format != FILE_FORMAT.INVALID:
-            self.add_media(filename)
-            if format == FILE_FORMAT.AUDIO:
-                self.add_media(filename)
-                self.show_visualization()
-
-    def add_media(self, filename: str):
+    def add_media(self, filename: str, format: FILE_FORMAT):
         url = QUrl.fromLocalFile(filename)
 
         self.playlist.addMedia(QMediaContent(url))
-        self.ui_manager.append_playlist(url.fileName())
+        self.ui_manager.append_playlist(url.fileName(), format)
 
-    def play(self):
-        self.ui_manager.show_video()
+    def set_media_position(self, pos):
+        self.playlist.setCurrentIndex(pos)
+
+    def play(self, format):
+        if format == FILE_FORMAT.AUDIO:
+            self.probe.audioBufferProbed.connect(self.process_buffer)
+        else:
+            self.ui_manager.show_video()
         self.player.play()
 
     def process_buffer(self, buffer):
