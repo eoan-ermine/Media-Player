@@ -2,20 +2,25 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog, QFileDialog
 from PyQt5.QtCore import Qt
 
-
-def open_file_dialog(hint="Select file to open", dir="", filter="") -> (str, str):
-    filename, type = QFileDialog.getOpenFileName(None, hint, dir, filter)
-    return filename, type
+from src.util.utils import *
+from src.gui.input_manager import InputManager
 
 
-def open_files_dialog(hint="Select one or multiple files to open", dir="", filter="") -> (str, str):
-    filenames, type = QFileDialog.getOpenFileNames(None, hint, dir, filter)
-    return filenames, type
+def open_file_dialog(hint="Select file to open", dir="", filter=";;".join([IMAGE_FILTER, VIDEO_FILTER, AUDIO_FILTER])):
+    filename, _ = QFileDialog.getOpenFileName(None, hint, dir, filter)
+    if filename:
+        InputManager.get_instance().add_file(filename, get_format(filename))
+
+
+def open_files_dialog() -> [str]:
+    dialog = OpenFilesDialog()
+    dialog.exec_()
 
 
 def open_directory_dialog(hint="Select directory to open", dir="", options=QFileDialog.ShowDirsOnly):
     directory = QFileDialog.getExistingDirectory(None, hint, dir, options)
-    return directory
+    if directory:
+        InputManager.get_instance().add_folder(directory)
 
 
 # Already implemented: Close Button
@@ -33,4 +38,5 @@ class OpenFilesDialog(QDialog):
         uic.loadUi("../open_file_dialog.ui", self)
 
     def init_signals(self):
+        self.file_browse_button.clicked.connect()
         self.cancel_btn.clicked.connect(lambda: self.done(0))
