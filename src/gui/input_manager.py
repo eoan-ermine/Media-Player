@@ -73,6 +73,10 @@ class InputManager:
         self.playlist.addMedia(QMediaContent(url))
         self.ui_manager.append_playlist(url.fileName())
 
+    # TODO: Implement content agnostic play method. Priority: CRITICAL
+    def play(self):
+        pass
+
     def play_video(self):
         self.ui_manager.show_video()
         self.player.play()

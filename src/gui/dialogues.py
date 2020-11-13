@@ -1,8 +1,11 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QDialog, QFileDialog
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtWidgets import QDialog, QFileDialog, QMenu
 from PyQt5.QtCore import Qt
 
 from src.util.utils import *
+from src.util.PlaylistWidgetItem import PlaylistItem, PlaylistItemDataRole
+
 from src.gui.input_manager import InputManager
 
 
@@ -33,12 +36,42 @@ class OpenFilesDialog(QDialog):
         self.setAttribute(Qt.WA_DeleteOnClose)
 
         self.init_ui()
-
         self.init_signals()
+
+        self.input_manager = InputManager.get_instance()
 
     def init_ui(self):
         uic.loadUi("../open_file_dialog.ui", self)
 
+        menu = QMenu()
+        menu.addAction("Добавить в очередь", lambda: [self.push_to_queue(), self.done(0)], QKeySequence("Alt+E"))
+        menu.addAction("Воспроизвести", lambda: [self.push_to_play(), self.done(0)], QKeySequence("Alt+P"))
+
+        self.play_btn.setMenu(menu)
+
     def init_signals(self):
-        self.file_browse_button.clicked.connect()
+        self.file_list.currentItemChanged.connect(lambda p, c: self.remove_file_btn.setEnabled(True))
+
+        self.file_browse_btn.clicked.connect(self.file_browse_slot)
+        self.remove_file_btn.clicked.connect(self.remove_file_slot)
+
         self.cancel_btn.clicked.connect(lambda: self.done(0))
+
+    def file_browse_slot(self):
+        open_file_dialog(process=lambda k: self.file_list.addItem(PlaylistItem(k, get_file_ext(k))))
+
+    def remove_file_slot(self):
+        self.file_list.takeItem(self.file_list.row(self.file_list.currentItem()))
+        if self.file_list.count() == 0:
+            self.remove_file_btn.setEnabled(False)
+
+    def get_files_to_send(self):
+        return [self.file_list.item(i).data(PlaylistItemDataRole.PATH) for i in range(self.file_list.count())]
+
+    def push_to_queue(self):
+        for path in self.get_files_to_send():
+            self.input_manager.add_media(path)
+
+    def push_to_play(self):
+        self.push_to_queue()
+        self.input_manager.play()
