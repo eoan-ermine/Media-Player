@@ -48,6 +48,9 @@ class InputManager:
     def position_changed_slot(self, position):
         self.ui_manager.set_position_slider_value(position)
 
+    def get_volume(self):
+        return self.player.volume()
+
     def set_volume(self, value):
         self.player.setVolume(value)
 
@@ -147,6 +150,18 @@ class InputManager:
 
     def stop(self):
         self.player.stop()
+
+    def is_muted(self):
+        return self.player.isMuted()
+
+    def mute(self, toggle):
+        self.player.setMuted(toggle)
+
+    def get_playback_rate(self):
+        return self.player.playbackRate()
+
+    def set_playback_rate(self, value):
+        self.player.setPlaybackRate(value)
 
     def process_buffer(self, buffer):
         if not self.probe_connected:

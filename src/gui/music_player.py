@@ -62,6 +62,22 @@ class MusicPlayer(QMainWindow):
         self.button.toggled.connect(self.on_play_slot)
         self.skip_forward_btn.clicked.connect(self.skip_forward_slot)
 
+        self.faster_action.triggered.connect(lambda: self.change_speed(0.5))
+        self.bit_faster_action.triggered.connect(lambda: self.change_speed(0.25))
+        self.normal_speed_action.triggered.connect(lambda: self.set_speed(1.0))
+        self.bit_slower_action.triggered.connect(lambda: self.change_speed(-0.25))
+        self.slower_action.triggered.connect(lambda: self.change_speed(-0.5))
+
+        self.pause_action.triggered.connect(lambda: self.input_manager.pause())
+        self.stop_action.triggered.connect(lambda: self.input_manager.stop())
+        self.previous_action.triggered.connect(self.skip_backward_slot)
+        self.next_action.triggered.connect(self.skip_forward_slot)
+
+        self.increase_volume_action.triggered.connect(lambda: self.change_volume(10))
+        self.decrease_volume_action.triggered.connect(lambda: self.change_volume(-10))
+
+        self.mute_action.triggered.connect(lambda: self.input_manager.mute(not self.input_manager.is_muted()))
+
         self.about_qt.triggered.connect(lambda: qApp.aboutQt())
         self.about_app.triggered.connect(lambda: AboutDialog().exec_())
 
@@ -105,3 +121,9 @@ class MusicPlayer(QMainWindow):
 
     def stop_slot(self):
         self.input_manager.stop()
+
+    def change_speed(self, delta):
+        self.input_manager.set_playback_rate(self.input_manager.get_playback_rate() + delta)
+
+    def change_volume(self, delta):
+        self.input_manager.set_volume(self.input_manager.get_volume() + delta)

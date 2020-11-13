@@ -213,17 +213,26 @@
     <property name="title">
      <string>Воспроизведение</string>
     </property>
-    <addaction name="action_20"/>
+    <widget class="QMenu" name="menu_11">
+     <property name="title">
+      <string>Скорость</string>
+     </property>
+     <addaction name="faster_action"/>
+     <addaction name="bit_faster_action"/>
+     <addaction name="normal_speed_action"/>
+     <addaction name="bit_slower_action"/>
+     <addaction name="slower_action"/>
+    </widget>
+    <addaction name="menu_11"/>
     <addaction name="separator"/>
-    <addaction name="action_44"/>
-    <addaction name="action_45"/>
-    <addaction name="action_46"/>
+    <addaction name="forward_time_action"/>
+    <addaction name="backward_time_action"/>
+    <addaction name="to_time_action"/>
     <addaction name="separator"/>
-    <addaction name="action_48"/>
-    <addaction name="action_49"/>
-    <addaction name="action_50"/>
-    <addaction name="action_51"/>
-    <addaction name="action_52"/>
+    <addaction name="pause_action"/>
+    <addaction name="stop_action"/>
+    <addaction name="previous_action"/>
+    <addaction name="next_action"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -233,9 +242,9 @@
     <addaction name="action_37"/>
     <addaction name="action_38"/>
     <addaction name="separator"/>
-    <addaction name="action_40"/>
-    <addaction name="action_41"/>
-    <addaction name="action_42"/>
+    <addaction name="increase_volume_action"/>
+    <addaction name="decrease_volume_action"/>
+    <addaction name="mute_action"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -305,11 +314,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="action_20">
-   <property name="text">
-    <string>Скорость</string>
    </property>
   </action>
   <action name="about_qt">
@@ -410,52 +414,55 @@
     <string>Режим стерео</string>
    </property>
   </action>
-  <action name="action_40">
+  <action name="increase_volume_action">
    <property name="text">
     <string>Увеличить громкость</string>
    </property>
   </action>
-  <action name="action_41">
+  <action name="decrease_volume_action">
    <property name="text">
     <string>Уменьшить громкость</string>
    </property>
   </action>
-  <action name="action_42">
+  <action name="mute_action">
    <property name="text">
     <string>Выключить звук</string>
    </property>
   </action>
-  <action name="action_44">
+  <action name="forward_time_action">
    <property name="text">
     <string>Скачок вперед</string>
    </property>
   </action>
-  <action name="action_45">
+  <action name="backward_time_action">
    <property name="text">
     <string>Скачок назад</string>
    </property>
   </action>
-  <action name="action_46">
+  <action name="to_time_action">
    <property name="text">
     <string>Переход к указанному времени</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
   </action>
-  <action name="action_48">
+  <action name="pause_action">
    <property name="text">
     <string>Пауза</string>
    </property>
   </action>
-  <action name="action_49">
+  <action name="stop_action">
    <property name="text">
     <string>Стоп</string>
    </property>
   </action>
-  <action name="action_50">
+  <action name="previous_action">
    <property name="text">
     <string>Предыдущий</string>
    </property>
   </action>
-  <action name="action_51">
+  <action name="next_action">
    <property name="text">
     <string>Следующий</string>
    </property>
@@ -516,6 +523,31 @@
   <action name="action_2">
    <property name="text">
     <string>Очистить</string>
+   </property>
+  </action>
+  <action name="faster_action">
+   <property name="text">
+    <string>Быстрее</string>
+   </property>
+  </action>
+  <action name="bit_faster_action">
+   <property name="text">
+    <string>Немного быстрее</string>
+   </property>
+  </action>
+  <action name="normal_speed_action">
+   <property name="text">
+    <string>Нормальная скорость</string>
+   </property>
+  </action>
+  <action name="bit_slower_action">
+   <property name="text">
+    <string>Немного медленнее</string>
+   </property>
+  </action>
+  <action name="slower_action">
+   <property name="text">
+    <string>Медленнее</string>
    </property>
   </action>
  </widget>
