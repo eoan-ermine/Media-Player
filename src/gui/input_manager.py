@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QUrl, QIODevice, QFile, QDataStream, QVariant, QTimer
-from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer, QAudioProbe
+from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer, QAudioProbe, QAudio, QAudioDeviceInfo, \
+    QAudioOutputSelectorControl, QMediaService
 
 from src.util.playlist_item import PlaylistItemDataRole
 from src.util.utils import *
@@ -185,3 +186,6 @@ class InputManager:
 
     def show_visualization(self, to_visualizer):
         self.ui_manager.update_equalizer(to_visualizer)
+
+    def get_audio_devices(self):
+        return QAudioDeviceInfo.availableDevices(QAudio.AudioOutput)

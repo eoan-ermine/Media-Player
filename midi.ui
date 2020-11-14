@@ -249,7 +249,7 @@
      <string>Аудио</string>
     </property>
     <addaction name="action_36"/>
-    <addaction name="action_37"/>
+    <addaction name="audiodevice_action"/>
     <addaction name="action_38"/>
     <addaction name="separator"/>
     <addaction name="increase_volume_action"/>
@@ -260,7 +260,7 @@
     <property name="title">
      <string>Видео</string>
     </property>
-    <addaction name="fullscreen_action"/>
+    <addaction name="full_video_action"/>
     <addaction name="action_31"/>
     <addaction name="separator"/>
     <addaction name="action_33"/>
@@ -296,7 +296,7 @@
     <addaction name="action_15"/>
     <addaction name="separator"/>
     <addaction name="action_21"/>
-    <addaction name="action_22"/>
+    <addaction name="fullscreen_action"/>
     <addaction name="separator"/>
     <addaction name="menu_9"/>
    </widget>
@@ -354,7 +354,7 @@
     <string>Мини-интерфейс</string>
    </property>
   </action>
-  <action name="action_22">
+  <action name="fullscreen_action">
    <property name="text">
     <string>Полноэкранный режим</string>
    </property>
@@ -384,7 +384,7 @@
     <string>Добавить файл субтитров</string>
    </property>
   </action>
-  <action name="fullscreen_action">
+  <action name="full_video_action">
    <property name="text">
     <string>Во весь экран</string>
    </property>
@@ -414,7 +414,7 @@
     <string>Аудиодорожка</string>
    </property>
   </action>
-  <action name="action_37">
+  <action name="audiodevice_action">
    <property name="text">
     <string>Аудиоустройство</string>
    </property>

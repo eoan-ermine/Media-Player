@@ -91,20 +91,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="copyRevisionButton">
-             <property name="toolTip">
-              <string>Copy revision number</string>
-             </property>
-             <property name="text">
-              <string notr="true"/>
-             </property>
-             <property name="icon">
-              <iconset>
-               <normaloff>:/data/icons/edit-copy.svg</normaloff>:/data/icons/edit-copy.svg</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
             <spacer name="horizontalSpacer_2">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>

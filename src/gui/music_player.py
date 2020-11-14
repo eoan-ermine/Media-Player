@@ -1,8 +1,9 @@
 from PyQt5 import uic
 from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp
+from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp, QAction
 
+from src.shells.abstract_shell import AbstractShell
 from src.util.equalizer_bar import EqualizerBar
 from src.util.utils import *
 
@@ -18,15 +19,16 @@ class MusicPlayer(QMainWindow):
         super().__init__()
         uic.loadUi("../midi.ui", self)
 
+        self.ui_manager = UIManager.get_instance(self)
+        self.input_manager = None
+
         self.init_ui()
         self.init_signals()
-
-        self.ui_manager = UIManager.get_instance(self)
-        self.input_manager = InputManager.get_instance()
 
         self.installEventFilter(self)
 
         self.current_pixmap = None
+        AbstractShell("hello", "bye").show_intro()
 
     def init_ui(self):
         self.stacked_widget = QStackedWidget()
@@ -43,6 +45,15 @@ class MusicPlayer(QMainWindow):
         self.button = RoundButton(self)
         self.button.setCheckable(True)
         self.button.setIcon(QIcon(":/play_icon"))
+
+        self.input_manager = InputManager.get_instance()
+
+        self.audio_devices_menu = QMenu()
+        for element in self.input_manager.get_audio_devices():
+            if element.realm() != "default":
+                continue
+            self.audio_devices_menu.addAction(element.deviceName())
+        self.audiodevice_action.setMenu(self.audio_devices_menu)
 
         self.buttons_layout.insertWidget(6, self.button)
         self.stacked_widget.addWidget(self.equalizer)
@@ -134,6 +145,9 @@ class MusicPlayer(QMainWindow):
 
     def stop_slot(self):
         self.input_manager.stop()
+
+    def set_speed(self, value):
+        self.input_manager.set_playback_rate(value)
 
     def change_speed(self, delta):
         self.input_manager.set_playback_rate(self.input_manager.get_playback_rate() + delta)
