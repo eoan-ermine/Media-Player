@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
+    <file>reset-icon-svg-by-Vexels.svg</file>
     <file>edit-copy.svg</file>
     <file>play_icon.svg</file>
     <file>pause_icon.svg</file>

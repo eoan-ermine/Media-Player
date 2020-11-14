@@ -68,7 +68,13 @@ class MusicPlayer(QMainWindow):
         self.bit_slower_action.triggered.connect(lambda: self.change_speed(-0.25))
         self.slower_action.triggered.connect(lambda: self.change_speed(-0.5))
 
-        self.pause_action.triggered.connect(lambda: self.input_manager.pause())
+        self.pause_action.triggered.connect(lambda: self.input_manager.play() if self.input_manager.is_paused()
+                                            else self.input_manager.pause())
+
+        self.forward_time_action.triggered.connect(lambda: self.time_travel(10))
+        self.backward_time_action.triggered.connect(lambda: self.time_travel(-10))
+        self.to_time_action.triggered.connect(lambda: self.open_time_travel_dialog_slot())
+
         self.stop_action.triggered.connect(lambda: self.input_manager.stop())
         self.previous_action.triggered.connect(self.skip_backward_slot)
         self.next_action.triggered.connect(self.skip_forward_slot)
@@ -92,6 +98,10 @@ class MusicPlayer(QMainWindow):
     @staticmethod
     def open_directory_action_slot():
         open_directory_dialog()
+
+    @staticmethod
+    def open_time_travel_dialog_slot():
+        open_time_travel_dialog()
 
     def row_changed_slot(self, current_row):
         if current_row < 0:
@@ -127,3 +137,6 @@ class MusicPlayer(QMainWindow):
 
     def change_volume(self, delta):
         self.input_manager.set_volume(self.input_manager.get_volume() + delta)
+
+    def time_travel(self, seconds):
+        self.input_manager.set_position(self.input_manager.get_position() + seconds * 1000)

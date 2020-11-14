@@ -18,7 +18,17 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,3">
       <item>
-       <widget class="QListWidget" name="list_widget"/>
+       <widget class="QListWidget" name="list_widget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="isWrapping" stdset="0">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout" stretch="3,0,0">
@@ -250,7 +260,7 @@
     <property name="title">
      <string>Видео</string>
     </property>
-    <addaction name="action_30"/>
+    <addaction name="fullscreen_action"/>
     <addaction name="action_31"/>
     <addaction name="separator"/>
     <addaction name="action_33"/>
@@ -374,7 +384,7 @@
     <string>Добавить файл субтитров</string>
    </property>
   </action>
-  <action name="action_30">
+  <action name="fullscreen_action">
    <property name="text">
     <string>Во весь экран</string>
    </property>

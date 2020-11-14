@@ -1,7 +1,7 @@
 from PyQt5 import uic
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QDialog, QFileDialog, QMenu
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTime
 
 from src.util.utils import *
 from src.util.playlist_item import PlaylistItem, PlaylistItemDataRole
@@ -29,6 +29,11 @@ def open_directory_dialog(hint="Select directory to open", dir="", options=QFile
         process(directory)
 
 
+def open_time_travel_dialog():
+    dialog = TimeTravelDialog()
+    dialog.exec_()
+
+
 class OpenFilesDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -54,7 +59,7 @@ class OpenFilesDialog(QDialog):
         self.file_browse_btn.clicked.connect(self.file_browse_slot)
         self.remove_file_btn.clicked.connect(self.remove_file_slot)
 
-        self.cancel_btn.clicked.connect(lambda: self.done(0))
+        self.cancel_btn.clicked.connect(lambda: self.done(-1))
 
     def file_browse_slot(self):
         open_file_dialog(process=lambda k: self.file_list.addItem(PlaylistItem(k, get_file_ext(k), get_format(k))))
@@ -97,3 +102,28 @@ class AboutDialog(QDialog):
     def init_signals(self):
         self.buttonBox.accepted.connect(lambda: self.done(0))
 
+
+class TimeTravelDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.init_ui()
+        self.init_signals()
+
+        self.input_manager = InputManager().get_instance()
+
+    def init_ui(self):
+        uic.loadUi("../time_travel_dialog.ui", self)
+
+    def init_signals(self):
+        self.reset_btn.clicked.connect(lambda: self.time_edit.clear())
+
+        self.go_btn.clicked.connect(self.go_btn_slot)
+        self.cancel_btn.clicked.connect(lambda: self.done(-1))
+
+    def go_btn_slot(self):
+        new_position = QTime(0, 0).secsTo(self.time_edit.time()) * 1000
+        self.input_manager.set_position(new_position)
+
+        self.done(0)
