@@ -34,6 +34,7 @@ class InputManager:
         self.player.stateChanged.connect(self.state_changed_slot)
 
     def set_position(self, new_pos):
+        self.ui_manager.set_position_slider_value(new_pos)
         self.player.setPosition(new_pos)
 
     def get_duration(self):
@@ -52,6 +53,7 @@ class InputManager:
         return self.player.volume()
 
     def set_volume(self, value):
+        self.ui_manager.set_volume_slider_value(value)
         self.player.setVolume(value)
 
     def current_media_changed_slot(self):
@@ -154,7 +156,11 @@ class InputManager:
     def is_muted(self):
         return self.player.isMuted()
 
+    def is_paused(self):
+        return self.player.state() in (QMediaPlayer.StoppedState, QMediaPlayer.PausedState)
+
     def mute(self, toggle):
+        self.ui_manager.change_mute_state(toggle, self.get_volume())
         self.player.setMuted(toggle)
 
     def get_playback_rate(self):

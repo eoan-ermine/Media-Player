@@ -41,7 +41,14 @@ class UIManager:
         self.parent.button.setIcon(QIcon(":/pause_icon") if checked else QIcon(":/play_icon"))
 
     def change_play_btn_state(self, state):
+        self.parent.pause_action.setText("Пауза" if state else "Воспроизвести")
         self.parent.button.setChecked(state)
+
+    def change_mute_state(self, state, last_volume):
+        self.parent.mute_action.setText("Включить звук" if state else "Выключить звук")
+
+        self.parent.volume_slider.setEnabled(not state)
+        self.set_volume_slider_value(0 if state else last_volume)
 
     def get_list_item(self, idx):
         return self.parent.list_widget.item(idx)
@@ -54,3 +61,6 @@ class UIManager:
 
     def set_position_slider_max_value(self, value):
         self.parent.position_slider.setMaximum(value)
+
+    def set_volume_slider_value(self, value):
+        self.parent.volume_slider.setValue(value)
