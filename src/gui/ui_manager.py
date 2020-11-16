@@ -1,4 +1,5 @@
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 
 from src.util import playlist_item
 from src.util.utils import *
@@ -64,3 +65,8 @@ class UIManager:
 
     def set_volume_slider_value(self, value):
         self.parent.volume_slider.setValue(value)
+
+    def show_on_top(self, state):
+        self.parent.setWindowFlags(self.parent.windowFlags() | Qt.WindowStaysOnTopHint if state else
+                                   self.parent.windowFlags() & ~Qt.WindowStaysOnTopHint)
+        self.parent.show()

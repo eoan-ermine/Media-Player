@@ -1,4 +1,5 @@
 from PyQt5 import uic
+from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp, QAction
@@ -55,6 +56,8 @@ class MusicPlayer(QMainWindow):
             self.audio_devices_menu.addAction(element.deviceName())
         self.audiodevice_action.setMenu(self.audio_devices_menu)
 
+        self.init_recent_files()
+
         self.buttons_layout.insertWidget(6, self.button)
         self.stacked_widget.addWidget(self.equalizer)
 
@@ -97,9 +100,11 @@ class MusicPlayer(QMainWindow):
 
         self.fullscreen_action.triggered.connect(lambda: self.showFullScreen() if not self.isFullScreen()
                                                  else self.showNormal())
+        self.show_on_top_action.triggered.connect(lambda state: self.show_on_top(state))
 
         self.about_qt.triggered.connect(lambda: qApp.aboutQt())
         self.about_app.triggered.connect(lambda: AboutDialog().exec_())
+        self.exit_action.triggered.connect(lambda: qApp.closeAllWindows())
 
     @staticmethod
     def open_file_action_slot():
@@ -157,3 +162,18 @@ class MusicPlayer(QMainWindow):
 
     def time_travel(self, seconds):
         self.input_manager.set_position(self.input_manager.get_position() + seconds * 1000)
+
+    def show_on_top(self, state):
+        self.ui_manager.show_on_top(state)
+
+    def init_recent_files(self):
+        recent_files = self.input_manager.get_recent_files()
+        for path in recent_files:
+            self.recent_files_menu.addAction(path, lambda: self.input_manager.add_media(
+                QObject.sender().text()
+            ))
+        self.recent_files_menu.addSeparator()
+        self.recent_files_menu.addAction(
+            "Очистить",
+            lambda: [self.input_manager.clear_recent_files(), self.init_recent_files()]
+        )

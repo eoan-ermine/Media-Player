@@ -201,23 +201,21 @@
     <property name="title">
      <string>Медиа</string>
     </property>
-    <widget class="QMenu" name="menu_10">
+    <widget class="QMenu" name="recent_files_menu">
      <property name="title">
       <string>Открыть из последнего</string>
      </property>
-     <addaction name="separator"/>
-     <addaction name="action_2"/>
     </widget>
     <addaction name="open_file_action"/>
     <addaction name="open_files_action"/>
     <addaction name="open_directory_action"/>
-    <addaction name="menu_10"/>
+    <addaction name="recent_files_menu"/>
     <addaction name="separator"/>
     <addaction name="action_58"/>
     <addaction name="action_59"/>
     <addaction name="separator"/>
     <addaction name="action_61"/>
-    <addaction name="action_62"/>
+    <addaction name="exit_action"/>
    </widget>
    <widget class="QMenu" name="menu_8">
     <property name="title">
@@ -293,7 +291,7 @@
     </widget>
     <addaction name="action_6"/>
     <addaction name="separator"/>
-    <addaction name="action_15"/>
+    <addaction name="show_on_top_action"/>
     <addaction name="separator"/>
     <addaction name="action_21"/>
     <addaction name="fullscreen_action"/>
@@ -344,7 +342,10 @@
     <string>Плейлист</string>
    </property>
   </action>
-  <action name="action_15">
+  <action name="show_on_top_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Поверх всех окон</string>
    </property>
@@ -522,7 +523,7 @@
     <string>Выход по окончании плейлиста</string>
    </property>
   </action>
-  <action name="action_62">
+  <action name="exit_action">
    <property name="text">
     <string>Выход</string>
    </property>

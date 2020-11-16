@@ -2,6 +2,7 @@ from PyQt5.QtCore import QUrl, QIODevice, QFile, QDataStream, QVariant, QTimer
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer, QAudioProbe, QAudio, QAudioDeviceInfo, \
     QAudioOutputSelectorControl, QMediaService
 
+from src.database.database_manager import RecentFilesManager
 from src.util.playlist_item import PlaylistItemDataRole
 from src.util.utils import *
 from src.gui.ui_manager import UIManager
@@ -90,6 +91,8 @@ class InputManager:
         self.timer.setInterval(100)
         self.timer.setSingleShot(True)
 
+        self.recent_files_manager = RecentFilesManager()
+
         self.ui_manager.set_output(self.player)
         self.player.setPlaylist(self.playlist)
 
@@ -120,6 +123,8 @@ class InputManager:
         url = QUrl.fromLocalFile(filename)
 
         self.ui_manager.append_playlist(url.fileName(), format)
+        self.recent_files_manager.write_recent_file(url.path())
+
         self.playlist.addMedia(QMediaContent(url))
 
     def set_media_position(self, pos):
@@ -137,7 +142,7 @@ class InputManager:
 
     def play(self):
         format = self.get_current_format()
-        if format == None:
+        if format is None:
             return
         self.ui_manager.change_play_btn_state(True)
         if format == FILE_FORMAT.AUDIO:
@@ -189,3 +194,9 @@ class InputManager:
 
     def get_audio_devices(self):
         return QAudioDeviceInfo.availableDevices(QAudio.AudioOutput)
+
+    def get_recent_files(self):
+        return self.recent_files_manager.get_recent_files()
+
+    def clear_recent_files(self):
+        return self.recent_files_manager.clear_recent_files()
