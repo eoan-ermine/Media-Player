@@ -13,7 +13,7 @@ class DatabaseManager:
         self.cursor = self.conn.cursor()
 
     def execute(self, command, args=[], after_commit=False):
-        self.cursor.execute(command, *args)
+        self.cursor.execute(command, args)
         if after_commit:
             self.commit()
 
@@ -28,13 +28,13 @@ class DatabaseManager:
 
 
 class RecentFilesManager:
-    def __init__(self, filename="./src/database/last_files.db"):
+    def __init__(self, filename="./database/last_files.db"):
         print(filename)
         self.db_manager = DatabaseManager(filename)
 
     def write_recent_file(self, path):
-        query = "INSERT INTO last_files (path) VALUES(?)"
-        self.db_manager.execute(query, path, after_commit=True)
+        self.db_manager.execute("DELETE FROM last_files WHERE path=?", [path])
+        self.db_manager.execute("INSERT INTO last_files (path) VALUES(?)", [path], after_commit=True)
 
     def get_recent_files(self):
         query = "SELECT path FROM last_files LIMIT 10"

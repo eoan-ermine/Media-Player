@@ -2,14 +2,12 @@ from PyQt5 import uic
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimediaWidgets import QVideoWidget
-from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp, QAction
+from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp
 
 from src.shells.abstract_shell import AbstractShell
 from src.util.equalizer_bar import EqualizerBar
-from src.util.utils import *
 
 from src.gui.ui_manager import UIManager
-from src.gui.input_manager import InputManager
 from src.gui.dialogues import *
 
 from src.util.round_button import RoundButton
@@ -29,7 +27,7 @@ class MusicPlayer(QMainWindow):
         self.installEventFilter(self)
 
         self.current_pixmap = None
-        AbstractShell("hello", "bye").show_intro()
+
 
     def init_ui(self):
         self.stacked_widget = QStackedWidget()
@@ -40,7 +38,7 @@ class MusicPlayer(QMainWindow):
         self.content_layout.addWidget(self.stacked_widget)
 
         self.equalizer = EqualizerBar(12, ['#0C0786', '#40039C', '#6A00A7', '#8F0DA3', '#B02A8F', '#CA4678', '#E06461',
-                                          '#F1824C', '#FCA635', '#FCCC25', '#EFF821'])
+                                           '#F1824C', '#FCA635', '#FCCC25', '#EFF821'])
         self.equalizer.show()
 
         self.button = RoundButton(self)
@@ -167,13 +165,4 @@ class MusicPlayer(QMainWindow):
         self.ui_manager.show_on_top(state)
 
     def init_recent_files(self):
-        recent_files = self.input_manager.get_recent_files()
-        for path in recent_files:
-            self.recent_files_menu.addAction(path, lambda: self.input_manager.add_media(
-                QObject.sender().text()
-            ))
-        self.recent_files_menu.addSeparator()
-        self.recent_files_menu.addAction(
-            "Очистить",
-            lambda: [self.input_manager.clear_recent_files(), self.init_recent_files()]
-        )
+        self.ui_manager.init_recent_files()

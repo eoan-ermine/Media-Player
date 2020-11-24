@@ -7,7 +7,7 @@ from src.util.playlist_item import PlaylistItemDataRole
 from src.util.utils import *
 from src.gui.ui_manager import UIManager
 
-from src.util.utils import FILE_FORMAT
+from src.util.utils import get_format, FILE_FORMAT
 
 
 class InputManager:
@@ -119,11 +119,19 @@ class InputManager:
         for file in files:
             self.add_media(path + "/" + file, get_format(file))
 
+    def add_file(self, filename: str):
+        format = get_format(filename)
+        if format != FILE_FORMAT.INVALID:
+            return self.add_media(filename, format)
+        raise RuntimeError("Invalid file format")
+
     def add_media(self, filename: str, format: FILE_FORMAT):
         url = QUrl.fromLocalFile(filename)
 
         self.ui_manager.append_playlist(url.fileName(), format)
+
         self.recent_files_manager.write_recent_file(url.path())
+        self.ui_manager.init_recent_files()
 
         self.playlist.addMedia(QMediaContent(url))
 

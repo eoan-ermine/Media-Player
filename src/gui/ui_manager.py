@@ -70,3 +70,17 @@ class UIManager:
         self.parent.setWindowFlags(self.parent.windowFlags() | Qt.WindowStaysOnTopHint if state else
                                    self.parent.windowFlags() & ~Qt.WindowStaysOnTopHint)
         self.parent.show()
+
+    def init_recent_files(self):
+        self.parent.recent_files_menu.clear()
+
+        recent_files = self.parent.input_manager.get_recent_files()
+        self.parent.recent_files_menu.triggered.connect(lambda a: [self.parent.input_manager.add_file(a.text()),
+                                                                   self.init_recent_files()])
+        for path in recent_files:
+            self.parent.recent_files_menu.addAction(path[0])
+        self.parent.recent_files_menu.addSeparator()
+        self.parent.recent_files_menu.addAction(
+            "Очистить",
+            lambda: [self.parent.input_manager.clear_recent_files(), self.init_recent_files()]
+        )
