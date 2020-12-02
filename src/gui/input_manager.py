@@ -208,3 +208,6 @@ class InputManager:
 
     def clear_recent_files(self):
         return self.recent_files_manager.clear_recent_files()
+
+    def exit(self):
+        self.parent.qApp.closeAllWindows()

@@ -1,10 +1,13 @@
+import os
+import threading
+from concurrent.futures import thread
+
 from PyQt5 import uic
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp
 
-from src.shells.abstract_shell import AbstractShell
 from src.util.equalizer_bar import EqualizerBar
 
 from src.gui.ui_manager import UIManager
@@ -27,7 +30,7 @@ class MusicPlayer(QMainWindow):
         self.installEventFilter(self)
 
         self.current_pixmap = None
-
+        self.qApp = qApp
 
     def init_ui(self):
         self.stacked_widget = QStackedWidget()
@@ -96,13 +99,14 @@ class MusicPlayer(QMainWindow):
 
         self.mute_action.triggered.connect(lambda: self.input_manager.mute(not self.input_manager.is_muted()))
 
-        self.fullscreen_action.triggered.connect(lambda: self.showFullScreen() if not self.isFullScreen()
-                                                 else self.showNormal())
+        self.fullscreen_action.triggered.connect(lambda: self.ui_manager.show_fullscreen())
         self.show_on_top_action.triggered.connect(lambda state: self.show_on_top(state))
+
+        self.start_console_interface.triggered.connect(lambda: threading.Thread(target=MusicPlayer.start_console_interface).start())
 
         self.about_qt.triggered.connect(lambda: qApp.aboutQt())
         self.about_app.triggered.connect(lambda: AboutDialog().exec_())
-        self.exit_action.triggered.connect(lambda: qApp.closeAllWindows())
+        self.exit_action.triggered.connect(lambda: self.ui_manager.exit())
 
     @staticmethod
     def open_file_action_slot():
@@ -166,3 +170,8 @@ class MusicPlayer(QMainWindow):
 
     def init_recent_files(self):
         self.ui_manager.init_recent_files()
+
+    # TODO: console interface
+    @staticmethod
+    def start_console_interface():
+        pass

@@ -287,7 +287,7 @@
      <property name="title">
       <string>Добавить интерфейс</string>
      </property>
-     <addaction name="action_25"/>
+     <addaction name="start_console_interface"/>
     </widget>
     <addaction name="action_6"/>
     <addaction name="separator"/>
@@ -360,9 +360,9 @@
     <string>Полноэкранный режим</string>
    </property>
   </action>
-  <action name="action_25">
+  <action name="start_console_interface">
    <property name="text">
-    <string>Веб-интерфейс</string>
+    <string>Консоль</string>
    </property>
   </action>
   <action name="action_26">
