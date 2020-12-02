@@ -1,4 +1,12 @@
 from src.gui.input_manager import InputManager
+from src.gui.ui_manager import UIManager
+from src.shells.shell_daemon import ShellDaemon
+
+
+class Order:
+    def __init__(self, command: str, args=[]):
+        self.command = command
+        self.args = args
 
 
 class Command:
@@ -11,12 +19,11 @@ class Command:
         return self.callback(*args, **kwargs)
 
 
-class AbstractShell:
-    def __init__(self, header, footer):
-        self.footer = footer
-        self.header = header
-
+class DaemonManager:
+    def __init__(self):
         self.input_manager = InputManager.get_instance()
+        self.ui_manager = UIManager.get_instance()
+
         self.commands = {
             "open_file": Command(1, "Открыть файл", self.open_file),
             "open_files": Command("Infinity", "Открыть файлы", self.open_files),
@@ -33,6 +40,7 @@ class AbstractShell:
             "backward_time": Command(0, "Совершить скачок назад", self.backward_time),
             "at_time": Command(3, "Перейти к заданному времени", self.at_time),
 
+            "play": Command(0, "Начать воспроизведение", self.play),
             "pause": Command(0, "Поставить воспроизведение на паузу", self.pause),
             "stop": Command(0, "Остановить воспроизведение", self.stop),
             "backward_media": Command(0, "Перейти к предыдущему в плейлисте медиафайлу", self.backward_media),
@@ -44,76 +52,84 @@ class AbstractShell:
 
             "show_fullscreen": Command(0, "Перейти в полноэкранный режим", self.show_fullscreen)
         }
+        self.daemons = []
 
-        self.show_intro()
+    def add_daemon(self, host: str, port: str):
+        daemon = ShellDaemon(self, host, port)
+        daemon.start(len(self.daemons))
 
-    def show_intro(self):
-        print(self.header)
-        print("+----[Команды дистанционного управления]")
-        for name in self.commands:
-            command = self.commands[name]
-            print("{} - {} аргумента(ов) - {}".format(name, command.num_of_args, command.description))
-        print("+----[конец справки]")
+        self.daemons.append(daemon)
 
-    def __del__(self):
-        print(self.footer)
+    def execute(self, order: Order):
+        command, args = [order.command, order.args]
+        if command in self.commands:
+            command_obj = self.command[command]
+            if command_obj.num_of_args in ("Infinity", len(command.args)):
+                command_obj(*args)
+            else:
+                print("Invalid count of arguments")
+        else:
+            print("Invalid command")
 
-    def open_file(self):
-        pass
+    def open_file(self, filepath):
+        self.input_manager.add_file(filepath)
 
-    def open_files(self):
-        pass
+    def open_files(self, *files):
+        [self.input_manager.add_file(file) for file in files]
 
-    def open_directory(self):
-        pass
+    def open_directory(self, folderpath):
+        self.input_manager.add_folder(folderpath)
 
     def exit(self):
-        pass
+        self.input_manager.exit()
 
     def bit_slower(self):
-        pass
+        self.input_manager.set_playback_rate(self.input_manager.get_playback_rate() - 0.25)
 
     def slower(self):
-        pass
+        self.input_manager.set_playback_rate(self.input_manager.get_playback_rate() - 0.5)
 
     def normal_speed(self):
-        pass
+        self.input_manager.set_playback_rate(1.0)
 
     def bit_faster(self):
-        pass
+        self.input_manager.set_playback_rate(self.input_manager.get_playback_rate() + 0.25)
 
     def faster(self):
-        pass
+        self.input_manager.set_playback_rate(self.input_manager.get_playback_rate() - 0.5)
 
     def forward_time(self):
-        pass
+        self.input_manager.set_position(self.input_manager.get_position() + 10 * 1000)
 
     def backward_time(self):
-        pass
+        self.input_manager.set_position(self.input_manager.get_position() - 10 * 1000)
 
-    def at_time(self):
-        pass
+    def at_time(self, seconds):
+        self.input_manager.set_position(seconds * 1000)
+
+    def play(self):
+        self.input_manager.play()
 
     def pause(self):
-        pass
+        self.input_manager.pause()
 
     def stop(self):
-        pass
+        self.input_manager.stop()
 
     def backward_media(self):
-        pass
+        self.input_manager.previous_media()
 
     def forward_media(self):
-        pass
+        self.input_manager.next_media()
 
     def increase_volume(self):
-        pass
+        self.input_manager.set_volume(self.input_manager.get_volume() + 10)
 
     def decrease_volume(self):
-        pass
+        self.input_manager.set_volume(self.input_manager.get_volume() - 10)
 
     def mute(self):
-        pass
+        self.input_manager.mute(True if self.input_manager.is_muted() else False)
 
     def show_fullscreen(self):
-        pass
+        self.ui_manager.show_fullscreen()
