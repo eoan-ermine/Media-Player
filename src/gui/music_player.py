@@ -8,6 +8,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp
 
+from src.shells.daemon_manager import DaemonManager
 from src.util.equalizer_bar import EqualizerBar
 
 from src.gui.ui_manager import UIManager
@@ -22,7 +23,9 @@ class MusicPlayer(QMainWindow):
         uic.loadUi("../midi.ui", self)
 
         self.ui_manager = UIManager.get_instance(self)
+
         self.input_manager = None
+        self.daemon_manager = None
 
         self.init_ui()
         self.init_signals()
@@ -49,6 +52,7 @@ class MusicPlayer(QMainWindow):
         self.button.setIcon(QIcon(":/play_icon"))
 
         self.input_manager = InputManager.get_instance()
+        self.daemon_manager = DaemonManager()
 
         self.audio_devices_menu = QMenu()
         for element in self.input_manager.get_audio_devices():
@@ -102,11 +106,11 @@ class MusicPlayer(QMainWindow):
         self.fullscreen_action.triggered.connect(lambda: self.ui_manager.show_fullscreen())
         self.show_on_top_action.triggered.connect(lambda state: self.show_on_top(state))
 
-        self.start_console_interface.triggered.connect(lambda: threading.Thread(target=MusicPlayer.start_console_interface).start())
+        self.start_console_interface.triggered.connect(lambda: self.start_console())
 
         self.about_qt.triggered.connect(lambda: qApp.aboutQt())
         self.about_app.triggered.connect(lambda: AboutDialog().exec_())
-        self.exit_action.triggered.connect(lambda: self.ui_manager.exit())
+        self.exit_action.triggered.connect(lambda: self.input_manager.exit())
 
     @staticmethod
     def open_file_action_slot():
@@ -171,7 +175,5 @@ class MusicPlayer(QMainWindow):
     def init_recent_files(self):
         self.ui_manager.init_recent_files()
 
-    # TODO: console interface
-    @staticmethod
-    def start_console_interface():
-        pass
+    def start_console(self):
+        self.daemon_manager.add_daemon("127.0.0.1", "8026")

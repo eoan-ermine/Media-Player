@@ -210,4 +210,4 @@ class InputManager:
         return self.recent_files_manager.clear_recent_files()
 
     def exit(self):
-        self.parent.qApp.closeAllWindows()
+        self.ui_manager.exit()

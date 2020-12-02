@@ -87,3 +87,6 @@ class UIManager:
 
     def show_fullscreen(self):
         self.parent.showFullScreen() if not self.parent.isFullScreen() else self.parent.showNormal()
+
+    def exit(self):
+        self.parent.qApp.closeAllWindows()

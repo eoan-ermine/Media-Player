@@ -1,10 +1,15 @@
+import threading
+
+from flask import Flask, request
+import json
+
 from src.gui.input_manager import InputManager
 from src.gui.ui_manager import UIManager
-from src.shells.shell_daemon import ShellDaemon
+from multiprocessing import Process
 
 
 class Order:
-    def __init__(self, command: str, args=[]):
+    def __init__(self, command, args=[]):
         self.command = command
         self.args = args
 
@@ -17,6 +22,30 @@ class Command:
 
     def __call__(self, *args, **kwargs):
         return self.callback(*args, **kwargs)
+
+
+class ShellDaemon:
+    def __init__(self, parent, host, port):
+        self.parent = parent
+
+        self.host = host
+        self.port = port
+
+    def run(self, i):
+        app = Flask("Daemon #{}".format(i))
+
+        def parse_order(order: str) -> Order:
+            return Order(order["command"], order["args"])
+
+        @app.route("/", methods=['POST'])
+        def handle_order():
+            if self.parent.execute(parse_order(request.get_json())):
+                return json.dumps({"success": True}), 200
+            return json.dumps({"success": False}), 400
+
+        server = threading.Thread(target=app.run, args=(self.host, self.port))
+        server.setDaemon(True)
+        server.start()
 
 
 class DaemonManager:
@@ -56,20 +85,23 @@ class DaemonManager:
 
     def add_daemon(self, host: str, port: str):
         daemon = ShellDaemon(self, host, port)
-        daemon.start(len(self.daemons))
+        daemon.run(len(self.daemons))
 
         self.daemons.append(daemon)
 
     def execute(self, order: Order):
         command, args = [order.command, order.args]
         if command in self.commands:
-            command_obj = self.command[command]
-            if command_obj.num_of_args in ("Infinity", len(command.args)):
+            command_obj = self.commands[command]
+            if command_obj.num_of_args in ("Infinity", len(args)):
                 command_obj(*args)
             else:
                 print("Invalid count of arguments")
+                return False
         else:
             print("Invalid command")
+            return False
+        return True
 
     def open_file(self, filepath):
         self.input_manager.add_file(filepath)
