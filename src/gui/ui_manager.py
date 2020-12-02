@@ -84,3 +84,6 @@ class UIManager:
             "Очистить",
             lambda: [self.parent.input_manager.clear_recent_files(), self.init_recent_files()]
         )
+
+    def show_fullscreen(self):
+        self.parent.showFullScreen() if not self.parent.isFullScreen() else self.parent.showNormal()
