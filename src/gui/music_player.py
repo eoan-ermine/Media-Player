@@ -65,6 +65,7 @@ class MusicPlayer(QMainWindow):
         self.open_file_action.triggered.connect(self.open_file_action_slot)
         self.open_files_action.triggered.connect(self.open_files_action_slot)
         self.open_directory_action.triggered.connect(self.open_directory_action_slot)
+        self.open_url_action.triggered.connect(self.open_url_action_slot)
 
         self.list_widget.currentRowChanged.connect(self.row_changed_slot)
 
@@ -116,6 +117,10 @@ class MusicPlayer(QMainWindow):
     @staticmethod
     def open_files_action_slot():
         open_files_dialog()
+
+    @staticmethod
+    def open_url_action_slot():
+        open_url_dialog()
 
     @staticmethod
     def open_directory_action_slot():

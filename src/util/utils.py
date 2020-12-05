@@ -3,6 +3,9 @@ from os.path import isfile, join, splitext, split
 
 from enum import Enum
 
+from PyQt5.QtCore import QRegularExpression
+from PyQt5.QtGui import QValidator, QRegularExpressionValidator
+
 IMAGE_FORMATS = ["bmp", "gif", "jpg", "jpeg", "png", "pbm", "pgm", "ppm", "xbm", "xpm"]
 VIDEO_FORMATS = ["avi", "mkv", "mp4", "flv", "mpeg", "mov", "ts", "m2ts", "wmv", "rm", "rmvb", "ogm", "webm"]
 AUDIO_FORMATS = ["mp3", "flc", "m4a", "aac", "ogg", "3gp", "amr", "ape", "mka", "opus", "wavpack", "musepack"]
@@ -22,7 +25,8 @@ class FILE_FORMAT(Enum):
     IMAGE = 0,
     VIDEO = 1,
     AUDIO = 2,
-    INVALID = 3,
+    URL = 3,
+    INVALID = 4,
 
 
 def get_dir_files(path):
@@ -59,3 +63,13 @@ def chunk(seq, num):
         last += avg
 
     return out
+
+
+class URLValidator(QValidator):
+    def __init__(self):
+        super().__init__()
+        regex = r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
+        self.validator = QRegularExpressionValidator(QRegularExpression(regex))
+
+    def validate(self, input, pos):
+        return self.validator.validate(input, pos)

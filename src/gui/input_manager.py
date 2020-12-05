@@ -126,14 +126,15 @@ class InputManager:
         raise RuntimeError("Invalid file format")
 
     def add_media(self, filename: str, format: FILE_FORMAT):
-        url = QUrl.fromLocalFile(filename)
+        url = QUrl.fromLocalFile(filename) if format != FILE_FORMAT.URL else QUrl(filename)
+        content = QMediaContent(url)
 
         self.ui_manager.append_playlist(url.fileName(), format)
 
         self.recent_files_manager.write_recent_file(url.path())
         self.ui_manager.init_recent_files()
 
-        self.playlist.addMedia(QMediaContent(url))
+        self.playlist.addMedia(content)
 
     def set_media_position(self, pos):
         self.playlist.setCurrentIndex(pos)

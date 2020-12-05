@@ -34,6 +34,11 @@ def open_time_travel_dialog():
     dialog.exec_()
 
 
+def open_url_dialog():
+    dialog = OpenURLDialog()
+    dialog.exec_()
+
+
 class OpenFilesDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -79,6 +84,37 @@ class OpenFilesDialog(QDialog):
     def push_to_queue(self):
         for path, format in self.get_files_to_send():
             self.input_manager.add_media(path, format)
+
+    def push_to_play(self):
+        self.push_to_queue()
+        self.input_manager.play()
+
+
+class OpenURLDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.init_ui()
+        self.init_signals()
+
+        self.input_manager = InputManager.get_instance()
+
+    def init_ui(self):
+        uic.loadUi("../open_url_dialog.ui", self)
+
+        menu = QMenu()
+        menu.addAction("Добавить в очередь", lambda: [self.push_to_queue(), self.done(0)], QKeySequence("Alt+E"))
+        menu.addAction("Воспроизвести", lambda: [self.push_to_play(), self.done(0)], QKeySequence("Alt+P"))
+        self.play_btn.setMenu(menu)
+
+        self.url_edit.setValidator(URLValidator())
+
+    def init_signals(self):
+        self.cancel_btn.clicked.connect(lambda: self.done(-1))
+
+    def push_to_queue(self):
+        self.input_manager.add_media(self.url_edit.text(), FILE_FORMAT.URL)
 
     def push_to_play(self):
         self.push_to_queue()
