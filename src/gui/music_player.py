@@ -1,9 +1,4 @@
-import os
-import threading
-from concurrent.futures import thread
-
 from PyQt5 import uic
-from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp
@@ -110,7 +105,9 @@ class MusicPlayer(QMainWindow):
 
         self.about_qt.triggered.connect(lambda: qApp.aboutQt())
         self.about_app.triggered.connect(lambda: AboutDialog().exec_())
+
         self.exit_action.triggered.connect(lambda: self.input_manager.exit())
+        qApp.aboutToQuit.connect(lambda: self.input_manager.exit())
 
     @staticmethod
     def open_file_action_slot():
