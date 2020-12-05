@@ -7,7 +7,8 @@ from PyQt5.QtCore import QRegularExpression
 from PyQt5.QtGui import QValidator, QRegularExpressionValidator
 
 IMAGE_FORMATS = ["bmp", "gif", "jpg", "jpeg", "png", "pbm", "pgm", "ppm", "xbm", "xpm"]
-VIDEO_FORMATS = ["avi", "mkv", "mp4", "flv", "mpeg", "mov", "ts", "m2ts", "wmv", "rm", "rmvb", "ogm", "webm"]
+VIDEO_FORMATS = ["avi", "mkv", "mp4", "flv", "mpeg", "mov", "ts", "m2ts", "wmv", "rm", "rmvb", "ogm", "webm",
+                 "m3u8"]
 AUDIO_FORMATS = ["mp3", "flc", "m4a", "aac", "ogg", "3gp", "amr", "ape", "mka", "opus", "wavpack", "musepack"]
 
 FORMATS = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
