@@ -1,3 +1,5 @@
+import sys
+
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
@@ -90,3 +92,4 @@ class UIManager:
 
     def exit(self):
         self.parent.qApp.closeAllWindows()
+        sys.exit(0)

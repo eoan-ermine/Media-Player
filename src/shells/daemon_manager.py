@@ -1,11 +1,13 @@
 import threading
+from queue import Queue, Empty
+from threading import Thread
 
+from PyQt5.QtCore import QCoreApplication
 from flask import Flask, request
 import json
 
 from src.gui.input_manager import InputManager
 from src.gui.ui_manager import UIManager
-from multiprocessing import Process
 
 
 class Order:
@@ -31,21 +33,31 @@ class ShellDaemon:
         self.host = host
         self.port = port
 
-    def run(self, i):
-        app = Flask("Daemon #{}".format(i))
+        self.queue = Queue()
 
+    def start_server(self, app, host, port):
         def parse_order(order: str) -> Order:
             return Order(order["command"], order["args"])
 
         @app.route("/", methods=['POST'])
         def handle_order():
-            if self.parent.execute(parse_order(request.get_json())):
-                return json.dumps({"success": True}), 200
-            return json.dumps({"success": False}), 400
+            self.queue.put(parse_order(request.get_json()))
 
-        server = threading.Thread(target=app.run, args=(self.host, self.port))
+        app.run(host, port)
+
+    def run(self, i):
+        app = Flask("Daemon #{}".format(i))
+
+        server = threading.Thread(target=self.start_server, args=(app, self.host, self.port))
         server.setDaemon(True)
         server.start()
+
+        while True:
+            try:
+                data = self.queue.get(block=True, timeout=0.001)
+                self.parent.execute(data)
+            except Empty:
+                QCoreApplication.processEvents()
 
 
 class DaemonManager:
