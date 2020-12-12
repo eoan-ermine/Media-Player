@@ -3,6 +3,7 @@ import sys
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 
+from src.gui.customization.abstract_model import AbstractModel
 from src.util import playlist_item
 from src.util.utils import *
 
@@ -89,6 +90,14 @@ class UIManager:
 
     def show_fullscreen(self):
         self.parent.showFullScreen() if not self.parent.isFullScreen() else self.parent.showNormal()
+
+    def set_model(self, model: AbstractModel):
+        self.parent.list_widget.setPalette(model.list_widget_palette())
+        self.parent.menubar.setPalette(model.menu_palette())
+        self.parent.menubar.setFont(model.menu_label_font())
+
+        for element in self.parent.menubar.actions():
+            element.setFont(model.menu_items_font())
 
     def exit(self):
         self.parent.qApp.closeAllWindows()

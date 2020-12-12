@@ -235,7 +235,7 @@ QSlider::sub-page:horizontal {
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="media_menu">
     <property name="title">
      <string>Медиа</string>
     </property>
@@ -256,7 +256,7 @@ QSlider::sub-page:horizontal {
     <addaction name="action_61"/>
     <addaction name="exit_action"/>
    </widget>
-   <widget class="QMenu" name="menu_8">
+   <widget class="QMenu" name="play_menu">
     <property name="title">
      <string>Воспроизведение</string>
     </property>
@@ -281,7 +281,7 @@ QSlider::sub-page:horizontal {
     <addaction name="previous_action"/>
     <addaction name="next_action"/>
    </widget>
-   <widget class="QMenu" name="menu_2">
+   <widget class="QMenu" name="audio_menu">
     <property name="title">
      <string>Аудио</string>
     </property>
@@ -293,7 +293,7 @@ QSlider::sub-page:horizontal {
     <addaction name="decrease_volume_action"/>
     <addaction name="mute_action"/>
    </widget>
-   <widget class="QMenu" name="menu_3">
+   <widget class="QMenu" name="video_menu">
     <property name="title">
      <string>Видео</string>
     </property>
@@ -304,13 +304,13 @@ QSlider::sub-page:horizontal {
     <addaction name="action_34"/>
     <addaction name="action_35"/>
    </widget>
-   <widget class="QMenu" name="menu_4">
+   <widget class="QMenu" name="subtitles_menu">
     <property name="title">
      <string>Субтитры</string>
     </property>
     <addaction name="action_29"/>
    </widget>
-   <widget class="QMenu" name="menu_5">
+   <widget class="QMenu" name="instruments_menu">
     <property name="title">
      <string>Инструменты</string>
     </property>
@@ -318,7 +318,7 @@ QSlider::sub-page:horizontal {
     <addaction name="action_27"/>
     <addaction name="action_28"/>
    </widget>
-   <widget class="QMenu" name="menu_6">
+   <widget class="QMenu" name="view_menu">
     <property name="title">
      <string>Вид</string>
     </property>
@@ -337,7 +337,7 @@ QSlider::sub-page:horizontal {
     <addaction name="separator"/>
     <addaction name="menu_9"/>
    </widget>
-   <widget class="QMenu" name="menu_7">
+   <widget class="QMenu" name="help_menu">
     <property name="title">
      <string>Помощь</string>
     </property>
@@ -345,14 +345,14 @@ QSlider::sub-page:horizontal {
     <addaction name="separator"/>
     <addaction name="about_app"/>
    </widget>
-   <addaction name="menu"/>
-   <addaction name="menu_8"/>
-   <addaction name="menu_2"/>
-   <addaction name="menu_3"/>
-   <addaction name="menu_4"/>
-   <addaction name="menu_5"/>
-   <addaction name="menu_6"/>
-   <addaction name="menu_7"/>
+   <addaction name="media_menu"/>
+   <addaction name="play_menu"/>
+   <addaction name="audio_menu"/>
+   <addaction name="video_menu"/>
+   <addaction name="subtitles_menu"/>
+   <addaction name="instruments_menu"/>
+   <addaction name="view_menu"/>
+   <addaction name="help_menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="open_file_action">

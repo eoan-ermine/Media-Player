@@ -3,6 +3,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import QMainWindow, QStackedWidget, qApp
 
+from src.gui.customization.standard_model import StandardModel
 from src.shells.daemon_manager import DaemonManager
 from src.util.equalizer_bar import EqualizerBar
 
@@ -60,6 +61,8 @@ class MusicPlayer(QMainWindow):
 
         self.buttons_layout.insertWidget(6, self.button)
         self.stacked_widget.addWidget(self.equalizer)
+
+        self.ui_manager.set_model(StandardModel())
 
     def init_signals(self):
         self.open_file_action.triggered.connect(self.open_file_action_slot)

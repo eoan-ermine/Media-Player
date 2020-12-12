@@ -14,3 +14,7 @@ class AbstractModel(ABC):
     @property
     def menu_label_font(self) -> QFont:
         raise NotImplementedError()
+
+    @property
+    def menu_items_font(self) -> QFont:
+        raise NotImplementedError()

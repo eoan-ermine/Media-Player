@@ -11,3 +11,6 @@ class StandardModel(AbstractModel):
 
     def menu_label_font(self) -> QFont:
         return QFont()
+
+    def menu_items_font(self) -> QFont:
+        return QFont()
