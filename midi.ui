@@ -39,26 +39,37 @@
          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1">
           <item>
            <widget class="QSlider" name="position_slider">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">.QSlider {
-    min-height: 68px;
-    max-height: 68px;
+    min-height: 50px;
+    max-height: 50px;
 }
 
 .QSlider::groove:horizontal {
     border: 1px solid #262626;
-    height: 5px;
-    margin: 0 12px;
+    height: 4px;
+    margin: 0 10px;
+	top: 30px;
 }
 
 QSlider::handle {
 	width: 40px;
     height: 100px;
-	bottom: 40px;
-	right: 20px;
-    margin: -40px 0;
-    image: url(:/slider_duck.png); }
-</string>
+	bottom: 50px;
+    margin: -100px 0;
+    image: url(:/slider_duck.png); }</string>
             </property>
             <property name="maximum">
              <number>100</number>

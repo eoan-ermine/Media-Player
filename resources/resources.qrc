@@ -1,7 +1,6 @@
 <RCC>
   <qresource prefix="/">
     <file>slider_duck.png</file>
-    <file>slider_duck.svg</file>
     <file>reset-icon-svg-by-Vexels.svg</file>
     <file>edit-copy.svg</file>
     <file>play_icon.svg</file>
