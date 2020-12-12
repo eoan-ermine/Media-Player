@@ -64,12 +64,18 @@
 	top: 30px;
 }
 
-QSlider::handle {
+QSlider::handle:horizontal {
 	width: 40px;
     height: 100px;
 	bottom: 50px;
-    margin: -100px 0;
-    image: url(:/slider_duck.png); }</string>
+    margin: -80px 0px;
+    image: url(:/slider_duck.png);
+}
+
+QSlider::sub-page:horizontal {
+	background: #2aa8ce;
+	margin: 0px 10px;
+}</string>
             </property>
             <property name="maximum">
              <number>100</number>
