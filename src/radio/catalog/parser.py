@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import sqlite3
 
+import logging
+
 urls = []
 with open("urls.txt") as f:
     urls = [e.strip() for e in f.readlines()]
@@ -34,12 +36,18 @@ for i, url in enumerate(urls):
         results = soup.find_all("button", class_="b-play station_play")
 
         for element in results:
-            img_url = element["radioimg"]
             name = element["radioname"]
             stream_url = element["stream"]
+            img_url = element["radioimg"]
 
-            c.execute("INSERT INTO station(category_id, name, stream_url, img_url) VALUES(?, ?, ?, ?)",
-                        [i, name, stream_url, img_url])
+            try:
+                c.execute("INSERT INTO station(name, stream_url, img_url) VALUES(?, ?, ?)",
+                          [name, stream_url, img_url])
+                c.execute("INSERT INTO categories(category_id, station_id) VALUES(?, ?)",
+                          [i, c.lastrowid])
+            except sqlite3.IntegrityError:
+                logging.debug("Failed to insert station with name {} and stream_url {}: IntegrityError"
+                              .format(name, stream_url))
         conn.commit()
 
 conn.close()
