@@ -46,7 +46,10 @@ def error(code: ErrorCode, args):
             }
         }
 
+
 allowed_fields = ["stream_url", "img_url", "category"]
+
+
 def check_fields(fields: list[str]):
     return not any([1 for field in fields if field not in allowed_fields])
 
@@ -54,6 +57,47 @@ def check_fields(fields: list[str]):
 conn = sqlite3.connect("database.db")
 c = conn.cursor()
 c.row_factory = dict_factory
+
+
+def get_station(cursor, station_ids=[], fields=[], constraints={}, count=None, offset=None):
+    if not check_fields(fields):
+        return False
+
+    constraints_list = []
+    if "stream_url" in constraints:
+        constraints_list.append("stream_url = {}".format(constraints["stream_url"]))
+    if "img_url" in constraints:
+        constraints_list.append("img_url = {}".format(constraints["img_url"]))
+
+    p_cons_cat = "category_id" in constraints
+    if p_cons_cat:
+        constraints_list.append("category_id = {}".format(constraints["category_id"]))
+
+    get_fields = ["id", "name"]
+    if "stream_url" in fields:
+        get_fields.append("stream_url")
+    if "img_url" in fields:
+        get_fields.append("img_url")
+    p_sel_cat = "category_id" in fields
+    if p_sel_cat:
+        get_fields.append("category_id")
+
+    statement = "SELECT {} FROM station WHERE".format(",".join(get_fields))
+    if station_ids:
+        statement += " id IN ({})".format(",".join(station_ids))
+    if constraints_list:
+        if station_ids:
+            statement += " AND"
+        statement += " {}".format("AND ".join(constraints_list))
+
+    if p_sel_cat or p_cons_cat:
+        statement += " INNER JOIN categories ON categories.station_id = station.id"
+    if count:
+        statement += " LIMIT" + count
+    if offset:
+        statement += " OFFSET" + offset
+
+    return cursor.execute(statement).fetchall()
 
 
 class StationGet(Resource):
