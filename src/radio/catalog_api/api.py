@@ -106,26 +106,19 @@ class StationGet(Resource):
 
         parser.add_argument("station_ids", type=str, required=True)
         parser.add_argument("fields", type=str)
-
         args = parser.parse_args()
 
         station_ids = args["station_ids"].split(",")
         fields = args["fields"].split(",") if "fields" in args else []
 
         if not check_fields(fields):
-
-
-        where_statement = "ID IN ({})".format(",".join(station_ids))
-        selected_columns = ["id, name", *fields]
-
-        statement = "SELECT ({}) FROM station WHERE {}".format(selected_columns, where_statement)
-        stations = c.execute(statement).fetchall()
+            return error(ErrorCode.INVALID_REQUEST, args), 400
 
         response = {
             "response": [
                 {
                     **station
-                } for station in stations
+                } for station in get_station(c, station_ids, fields)
             ]
         }
         return response, 200
@@ -143,31 +136,31 @@ class StationSearch(Resource):
         parser.add_argument("img_url", type=str)
 
         parser.add_argument("fields", type=str)
-
         args = parser.parse_args()
-        if not (args["category_id"] or args["stream_url"] or args["img_url"]):
-            return error(ErrorCode.INVALID_REQUIRED_ARG, args)
-
-        where_list = []
-        if "category_id" in args:
-            where_list.append("category_id = {}".format(args["category_id"]))
-        if "stream_url" in args:
-            where_list.append("stream_url = {}".format(args["stream_url"]))
-        if "img_url" in args:
-            where_list.append("img_url = {}".format(args["img_url"]))
-        where_statement = ", ".join(where_list)
 
         count = args["count"]
         offset = args["offset"]
-        fields = args["fields"] if "fields" in args else []
+        fields = args["fields"].split(",") if "fields" in args else []
 
         if not check_fields(fields):
-            return error(ErrorCode.INVALID_REQUEST, args)
-        selected_columns = ", ".join(fields)
+            return error(ErrorCode.INVALID_REQUIRED_ARG, args), 400
 
+        constraints = {}
+        if args["category_id"]:
+            constraints["category_id"] = args["category_id"]
+        if args["stream_url"]:
+            constraints["stream_url"] = args["stream_url"]
+        if args["img_url"]:
+            constraints["img_url"] = args["img_url"]
 
-
-
+        response = {
+            "response": [
+                {
+                    **station
+                } for station in get_station(c, [], fields, constraints, count, offset)
+            ]
+        }
+        return response, 200
 
 
 api.add_resource(StationGet, "/method/stations.get")
