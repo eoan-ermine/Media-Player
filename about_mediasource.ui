@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>508</width>
+    <height>476</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Информация о медиаисточнике</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab_1">
+        <attribute name="title">
+         <string>Общие</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <property name="verticalSpacing">
+            <number>0</number>
+           </property>
+           <item row="17" column="0">
+            <widget class="QTextEdit" name="comment_edit"/>
+           </item>
+           <item row="12" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>&lt;b&gt;Авторские права&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLineEdit" name="genre_edit"/>
+           </item>
+           <item row="9" column="0">
+            <widget class="QLineEdit" name="now_playing_edit"/>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="language_edit"/>
+           </item>
+           <item row="11" column="0">
+            <widget class="QLineEdit" name="publisher_edit"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLineEdit" name="performer_edit"/>
+           </item>
+           <item row="13" column="0">
+            <widget class="QLineEdit" name="copyright_edit"/>
+           </item>
+           <item row="15" column="0">
+            <widget class="QLineEdit" name="encoded_by_edit"/>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>&lt;b&gt;Сейчас играет&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLineEdit" name="track_edit_1"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_13">
+               <property name="text">
+                <string>&lt;b&gt;/&lt;/b&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="track_edit_2"/>
+             </item>
+            </layout>
+           </item>
+           <item row="10" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>&lt;b&gt;Издатель&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="14" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>&lt;b&gt;Кем закодировано&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>&lt;b&gt;Жанр&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLineEdit" name="album_edit"/>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="date_edit"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLineEdit" name="name_edit"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>&lt;b&gt;Альбом&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>&lt;b&gt;Название&lt;/b&gt;</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::AutoText</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>&lt;b&gt;Исполнитель&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="16" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>&lt;b&gt;Комментарий&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>&lt;b&gt;Дата&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>&lt;b&gt;Номер дорожки&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>&lt;b&gt;Язык&lt;/b&gt;</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>Метаданные</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,5">
+           <item>
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>Здесь показываются дополнительные метаданные и другие сведения.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <widget class="QTableWidget" name="tableWidget"/>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>Кодеки</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,5">
+           <item>
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>Информация об этом медиафайле или потоке.
+Показаны мультиплексор, аудио- и видеокодеки, субтитры.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="tableWidget_2"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_14">
+       <property name="text">
+        <string>Расположение:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="source_edit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Закрыть</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>253</x>
+     <y>226</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
