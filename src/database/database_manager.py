@@ -61,3 +61,13 @@ class RecentFilesManager:
     def clear_recent_files(self):
         query = "DELETE FROM last_files"
         self.db_manager.execute(query, after_commit=True)
+
+
+class RadioStationsManager:
+    def __init__(self, filename="./resources/radio_stations.db"):
+        self.db_manager = DatabaseManager(filename, ResultType.DICT)
+
+    def get_all_stations(self):
+        query = "SELECT (name, stream_url) FROM station"
+        self.db_manager.execute(query)
+        return self.db_manager.fetch()
