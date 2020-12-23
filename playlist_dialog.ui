@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>509</width>
+    <height>593</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Плейлист</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="1,30">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="current_section_lbl">
+          <property name="text">
+           <string>&lt;b&gt;Плейлист&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QToolButton" name="change_view_btn">
+          <property name="text">
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="search_edit">
+          <property name="toolTip">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Искать</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,3">
+        <item>
+         <widget class="QTreeWidget" name="treeWidget">
+          <property name="indentation">
+           <number>2</number>
+          </property>
+          <property name="rootIsDecorated">
+           <bool>true</bool>
+          </property>
+          <property name="uniformRowHeights">
+           <bool>false</bool>
+          </property>
+          <property name="headerHidden">
+           <bool>true</bool>
+          </property>
+          <column>
+           <property name="text">
+            <string/>
+           </property>
+          </column>
+          <item>
+           <property name="text">
+            <string>Плейлист</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Медиатека</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Компьютер</string>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <item>
+            <property name="text">
+             <string>Мои видеозаписи</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Моя музыка</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Мои рисунки</string>
+            </property>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Устройства</string>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <item>
+            <property name="text">
+             <string>Диски</string>
+            </property>
+           </item>
+          </item>
+          <item>
+           <property name="text">
+            <string>Интернет</string>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <item>
+            <property name="text">
+             <string>Подкасты</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Радио</string>
+            </property>
+           </item>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableWidget">
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Название</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Длительность</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Альбом</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>509</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
