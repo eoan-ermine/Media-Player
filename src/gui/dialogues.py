@@ -3,6 +3,7 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QDialog, QFileDialog, QMenu
 from PyQt5.QtCore import Qt, QTime
 
+from src.radio.catalog_ui.radio_table_widget_item import QRadioTableWidgetItem
 from src.util.utils import *
 from src.util.playlist_item import PlaylistItem, PlaylistItemDataRole
 
@@ -163,3 +164,78 @@ class TimeTravelDialog(QDialog):
         self.input_manager.set_position(new_position)
 
         self.done(0)
+
+
+class PlaylistDialogPage(Enum):
+    PLAYLIST = 0,
+    LIBRARY = 1,
+
+    VIDEO = 3,
+    MUSIC = 4,
+    PICTURE = 5,
+
+    DISK = 7,
+
+    PODCAST = 9,
+    RADIO = 10,
+
+
+class PlaylistDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.init_ui()
+        self.init_signals()
+
+        self.input_manager = InputManager().get_instance()
+        self.current_page = PlaylistDialogPage.PLAYLIST
+
+        self.draw_page(int(self.current_page))
+
+    def init_ui(self):
+        uic.loadUi("../playlist_dialog.ui", self)
+
+    def draw_page(self, row):
+        page = PlaylistDialogPage(row)
+
+        self.media_table.clear()
+        if page == PlaylistDialogPage.PLAYLIST:
+            self.draw_playlist_page()
+        elif page == PlaylistDialogPage.LIBRARY:
+            self.draw_library_page()
+
+        elif page == PlaylistDialogPage.VIDEO:
+            self.draw_video_page()
+        elif page == PlaylistDialogPage.MUSIC:
+            self.draw_video_page()
+        elif page == PlaylistDialogPage.PICTURE:
+            self.draw_picture_page()
+
+        elif page == PlaylistDialogPage.DISK:
+            self.draw_disk_page()
+
+        elif page == PlaylistDialogPage.PODCAST:
+            self.draw_podcast_page()
+        elif page == PlaylistDialogPage.RADIO:
+            self.draw_radio_page()
+
+    def open_media(self, row):
+        item = self.media_table.itemAt(row, 0)
+        if self.current_page == PlaylistDialogPage.RADIO:
+            self.input_manager.add_media(item.url(), FILE_FORMAT.URL)
+        self.input_manager.play()
+
+    def draw_radio_page(self):
+        stations = self.input_manager.get_radio_stations()
+        for station in stations:
+            item = QRadioTableWidgetItem(f"{station['name']}", url=station["stream_url"])
+            self.media_table.setItem(self.media_table.rowCount(), 0, item)
+
+    def init_signals(self):
+        self.chooser.clicked.connect(
+            lambda index: self.draw_page(index.row)
+        )
+        self.media_table.clicked.connect(
+            lambda index: self.open_media(index.row)
+        )
