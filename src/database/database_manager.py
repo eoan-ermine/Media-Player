@@ -61,3 +61,26 @@ class RecentFilesManager:
     def clear_recent_files(self):
         query = "DELETE FROM last_files"
         self.db_manager.execute(query, after_commit=True)
+
+
+class RadioStationsManager:
+    def __init__(self, filename="./database/resources/radio_stations.db"):
+        self.db_manager = DatabaseManager(filename, ResultType.DICT)
+
+    def get_all_stations(self, limit, category):
+        query = "SELECT name, stream_url FROM station"
+        if category:
+            query = "SELECT station.name, station.stream_url FROM station "\
+                    f"INNER JOIN category ON category.name = '{category}' "\
+                    f"INNER JOIN categories ON category.id = categories.category_id "\
+                    f"WHERE station.id = categories.station_id"
+        if limit:
+            query += f" LIMIT {limit}"
+
+        self.db_manager.execute(query)
+        return self.db_manager.fetch()
+
+    def get_all_categories(self):
+        query = "SELECT name FROM category"
+        self.db_manager.execute(query)
+        return self.db_manager.fetch()

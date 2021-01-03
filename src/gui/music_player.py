@@ -102,6 +102,7 @@ class MusicPlayer(QMainWindow):
 
         self.mute_action.triggered.connect(lambda: self.input_manager.mute(not self.input_manager.is_muted()))
 
+        self.playlist_action.triggered.connect(lambda: open_playlist_dialog())
         self.fullscreen_action.triggered.connect(lambda: self.ui_manager.show_fullscreen())
         self.show_on_top_action.triggered.connect(lambda state: self.show_on_top(state))
 

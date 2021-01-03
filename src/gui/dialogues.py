@@ -3,6 +3,8 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QDialog, QFileDialog, QMenu
 from PyQt5.QtCore import Qt, QTime
 
+from src.radio.catalog_ui.radio_table_widget_item import QRadioTableWidgetItem
+from src.util.playlist_tree_item import PlaylistTreeItem
 from src.util.utils import *
 from src.util.playlist_item import PlaylistItem, PlaylistItemDataRole
 
@@ -163,3 +165,83 @@ class TimeTravelDialog(QDialog):
         self.input_manager.set_position(new_position)
 
         self.done(0)
+
+
+def open_playlist_dialog():
+    dialog = PlaylistDialog()
+    dialog.exec_()
+
+
+class PlaylistDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.input_manager = InputManager().get_instance()
+        self.radio_categories = []
+
+        self.init_ui()
+        self.init_signals()
+
+        self.current_page = None
+
+    def init_ui(self):
+        uic.loadUi("../playlist_dialog.ui", self)
+
+        self.playlist_item = PlaylistTreeItem("Плейлист", self.chooser)
+        self.mediateque_item = PlaylistTreeItem("Медиатека", self.chooser)
+
+        self.computer_item = PlaylistTreeItem("Компьютер", self.chooser)
+
+        self.video_item = PlaylistTreeItem("Видео", self.computer_item)
+        self.music_item = PlaylistTreeItem("Музыка", self.computer_item)
+        self.pictures_item = PlaylistTreeItem("Изображения", self.computer_item)
+
+        self.devices_item = PlaylistTreeItem("Устройства", self.chooser)
+        self.disks_item = PlaylistTreeItem("Диски", self.devices_item)
+
+        self.internet_item = PlaylistTreeItem("Интернет", self.chooser)
+        self.podcasts_item = PlaylistTreeItem("Подкасты", self.internet_item)
+
+        self.radio_item = PlaylistTreeItem("Радио", self.internet_item)
+        for category in self.input_manager.get_radio_categories():
+            self.radio_categories.append(
+                PlaylistTreeItem(category["name"], self.radio_item)
+            )
+
+    def draw_page(self, item):
+        self.current_page = item
+
+        if item == self.radio_item:
+            self.draw_radio_page()
+        if item in self.radio_categories:
+            self.draw_radio_page(category=item.text(0))
+
+    def open_media(self, item):
+        if self.current_page == self.radio_item or self.current_page in self.radio_categories:
+            self.input_manager.add_media(item.url(), FILE_FORMAT.URL)
+        self.input_manager.play()
+
+    def draw_radio_page(self, category=None):
+        if not category:
+            stations = self.input_manager.get_radio_stations(limit=50)
+        else:
+            stations = self.input_manager.get_radio_stations(limit=50, category=category)
+        self.media_table.setRowCount(len(stations))
+        for i, station in enumerate(stations):
+            item = QRadioTableWidgetItem(f"{station['name']}", url=station["stream_url"])
+            self.media_table.setItem(i, 0, item)
+
+    def search(self):
+        search_result = self.media_table.findItems(self.search_edit.text(), Qt.MatchContains)
+        to_show = [e.row() for e in search_result if e is not None]
+        for row in range(0, self.media_table.rowCount()):
+            if row in to_show:
+                self.media_table.showRow(row)
+            else:
+                self.media_table.hideRow(row)
+
+    def init_signals(self):
+        self.chooser.itemActivated.connect(self.draw_page)
+        self.media_table.itemDoubleClicked.connect(self.open_media)
+        self.search_edit.editingFinished.connect(self.search)

@@ -1,8 +1,8 @@
-from PyQt5.QtCore import QUrl, QIODevice, QFile, QDataStream, QVariant, QTimer
+from PyQt5.QtCore import QUrl, QIODevice, QFile, QDataStream, QVariant, QTimer, QFileInfo
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer, QAudioProbe, QAudio, QAudioDeviceInfo, \
     QAudioOutputSelectorControl, QMediaService
 
-from src.database.database_manager import RecentFilesManager
+from src.database.database_manager import RecentFilesManager, RadioStationsManager
 from src.util.playlist_item import PlaylistItemDataRole
 from src.util.utils import *
 from src.gui.ui_manager import UIManager
@@ -16,6 +16,7 @@ class InputManager:
     def __init__(self):
         if not InputManager.__instance:
             self.ui_manager = UIManager.get_instance()
+            self.radio_stations_manager = RadioStationsManager()
 
             self.player = None
             self.playlist = None
@@ -106,6 +107,14 @@ class InputManager:
         in_stream >> cur_playlist
 
         self.playlist = cur_playlist.value()
+
+    def get_radio_stations(self, limit=None, category=None):
+        stations = self.radio_stations_manager.get_all_stations(limit, category)
+        return stations
+
+    def get_radio_categories(self):
+        categories = self.radio_stations_manager.get_all_categories()
+        return categories
 
     def save_state(self):
         file = QFile("file.dat")
