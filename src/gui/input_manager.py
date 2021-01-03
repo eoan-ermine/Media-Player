@@ -108,9 +108,13 @@ class InputManager:
 
         self.playlist = cur_playlist.value()
 
-    def get_radio_stations(self, limit=None):
-        stations = self.radio_stations_manager.get_all_stations(limit)
+    def get_radio_stations(self, limit=None, category=None):
+        stations = self.radio_stations_manager.get_all_stations(limit, category)
         return stations
+
+    def get_radio_categories(self):
+        categories = self.radio_stations_manager.get_all_categories()
+        return categories
 
     def save_state(self):
         file = QFile("file.dat")
