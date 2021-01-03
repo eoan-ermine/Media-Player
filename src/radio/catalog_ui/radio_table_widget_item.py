@@ -1,10 +1,10 @@
-from enum import Enum, auto
+from enum import auto, IntEnum
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidgetItem
 
 
-class RadioTableWidgetItemRole(Enum):
+class RadioTableWidgetItemRole(IntEnum):
     def _generate_next_value_(name, start, count, last_values):
         return Qt.UserRole + count
     URL = auto()
@@ -13,10 +13,10 @@ class RadioTableWidgetItemRole(Enum):
 class QRadioTableWidgetItem(QTableWidgetItem):
     def __init__(self, *args, url, **kwargs):
         super().__init__(*args, **kwargs)
-        self.setData(RadioTableWidgetItemRole.URL, url)
+        self.setData(int(RadioTableWidgetItemRole.URL), url)
 
     def set_url(self, url):
-        self.setData(RadioTableWidgetItemRole.URL, url)
+        self.setData(int(RadioTableWidgetItemRole.URL), url)
 
     def url(self):
-        return self.data(RadioTableWidgetItemRole.URL)
+        return self.data(int(RadioTableWidgetItemRole.URL))

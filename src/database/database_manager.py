@@ -64,10 +64,10 @@ class RecentFilesManager:
 
 
 class RadioStationsManager:
-    def __init__(self, filename="./resources/radio_stations.db"):
+    def __init__(self, filename="./database/resources/radio_stations.db"):
         self.db_manager = DatabaseManager(filename, ResultType.DICT)
 
-    def get_all_stations(self):
-        query = "SELECT (name, stream_url) FROM station"
+    def get_all_stations(self, limit):
+        query = "SELECT name, stream_url FROM station" + f" LIMIT {limit}" if limit else ""
         self.db_manager.execute(query)
         return self.db_manager.fetch()

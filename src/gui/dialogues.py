@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QDialog, QFileDialog, QMenu
 from PyQt5.QtCore import Qt, QTime
 
 from src.radio.catalog_ui.radio_table_widget_item import QRadioTableWidgetItem
+from src.util.playlist_tree_item import PlaylistTreeItem
 from src.util.utils import *
 from src.util.playlist_item import PlaylistItem, PlaylistItemDataRole
 
@@ -166,18 +167,9 @@ class TimeTravelDialog(QDialog):
         self.done(0)
 
 
-class PlaylistDialogPage(Enum):
-    PLAYLIST = 0,
-    LIBRARY = 1,
-
-    VIDEO = 3,
-    MUSIC = 4,
-    PICTURE = 5,
-
-    DISK = 7,
-
-    PODCAST = 9,
-    RADIO = 10,
+def open_playlist_dialog():
+    dialog = PlaylistDialog()
+    dialog.exec_()
 
 
 class PlaylistDialog(QDialog):
@@ -189,53 +181,45 @@ class PlaylistDialog(QDialog):
         self.init_signals()
 
         self.input_manager = InputManager().get_instance()
-        self.current_page = PlaylistDialogPage.PLAYLIST
-
-        self.draw_page(int(self.current_page))
+        self.current_page = None
 
     def init_ui(self):
         uic.loadUi("../playlist_dialog.ui", self)
 
-    def draw_page(self, row):
-        page = PlaylistDialogPage(row)
+        self.playlist_item = PlaylistTreeItem("Плейлист", self.chooser)
+        self.mediateque_item = PlaylistTreeItem("Медиатека", self.chooser)
 
-        self.media_table.clear()
-        if page == PlaylistDialogPage.PLAYLIST:
-            self.draw_playlist_page()
-        elif page == PlaylistDialogPage.LIBRARY:
-            self.draw_library_page()
+        self.computer_item = PlaylistTreeItem("Компьютер", self.chooser)
 
-        elif page == PlaylistDialogPage.VIDEO:
-            self.draw_video_page()
-        elif page == PlaylistDialogPage.MUSIC:
-            self.draw_video_page()
-        elif page == PlaylistDialogPage.PICTURE:
-            self.draw_picture_page()
+        self.video_item = PlaylistTreeItem("Видео", self.computer_item)
+        self.music_item = PlaylistTreeItem("Музыка", self.computer_item)
+        self.pictures_item = PlaylistTreeItem("Изображения", self.computer_item)
 
-        elif page == PlaylistDialogPage.DISK:
-            self.draw_disk_page()
+        self.devices_item = PlaylistTreeItem("Устройства", self.chooser)
+        self.disks_item = PlaylistTreeItem("Диски", self.devices_item)
 
-        elif page == PlaylistDialogPage.PODCAST:
-            self.draw_podcast_page()
-        elif page == PlaylistDialogPage.RADIO:
+        self.internet_item = PlaylistTreeItem("Интернет", self.chooser)
+        self.podcasts_item = PlaylistTreeItem("Подкасты", self.internet_item)
+        self.radio_item = PlaylistTreeItem("Радио", self.internet_item)
+
+    def draw_page(self, item):
+        self.current_page = item
+
+        if item == self.radio_item:
             self.draw_radio_page()
 
     def open_media(self, row):
         item = self.media_table.itemAt(row, 0)
-        if self.current_page == PlaylistDialogPage.RADIO:
+        if self.current_page == self.radio_item:
             self.input_manager.add_media(item.url(), FILE_FORMAT.URL)
         self.input_manager.play()
 
     def draw_radio_page(self):
-        stations = self.input_manager.get_radio_stations()
-        for station in stations:
+        stations = self.input_manager.get_radio_stations(limit=50)
+        self.media_table.setRowCount(len(stations))
+        for i, station in enumerate(stations):
             item = QRadioTableWidgetItem(f"{station['name']}", url=station["stream_url"])
-            self.media_table.setItem(self.media_table.rowCount(), 0, item)
+            self.media_table.setItem(i, 0, item)
 
     def init_signals(self):
-        self.chooser.clicked.connect(
-            lambda index: self.draw_page(index.row)
-        )
-        self.media_table.clicked.connect(
-            lambda index: self.open_media(index.row)
-        )
+        self.chooser.itemActivated.connect(self.draw_page)

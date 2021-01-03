@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QUrl, QIODevice, QFile, QDataStream, QVariant, QTimer
+from PyQt5.QtCore import QUrl, QIODevice, QFile, QDataStream, QVariant, QTimer, QFileInfo
 from PyQt5.QtMultimedia import QMediaPlaylist, QMediaContent, QMediaPlayer, QAudioProbe, QAudio, QAudioDeviceInfo, \
     QAudioOutputSelectorControl, QMediaService
 
@@ -108,8 +108,8 @@ class InputManager:
 
         self.playlist = cur_playlist.value()
 
-    def get_radio_stations(self):
-        stations = self.radio_stations_manager.get_all_stations()
+    def get_radio_stations(self, limit=None):
+        stations = self.radio_stations_manager.get_all_stations(limit)
         return stations
 
     def save_state(self):
