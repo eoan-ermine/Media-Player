@@ -16,6 +16,7 @@ class UIManager:
     def __init__(self, parent=None):
         if not UIManager.__instance:
             self.parent = parent
+        self.init_signals()
 
     @classmethod
     def get_instance(cls, *args, **kwargs):
@@ -78,8 +79,6 @@ class UIManager:
         self.parent.recent_files_menu.clear()
 
         recent_files = self.parent.input_manager.get_recent_files()
-        self.parent.recent_files_menu.triggered.connect(lambda a: [self.parent.input_manager.add_file(a.text()),
-                                                                   self.init_recent_files()])
         for path in recent_files:
             self.parent.recent_files_menu.addAction(path[0])
         self.parent.recent_files_menu.addSeparator()
@@ -98,6 +97,10 @@ class UIManager:
 
         for element in self.parent.menubar.actions():
             element.setFont(model.menu_items_font())
+
+    def init_signals(self):
+        self.parent.recent_files_menu.triggered.connect(lambda a: self.parent.input_manager.add_file(a.text()))
+        self.parent.recent_files_menu.triggered.connect(self.init_recent_files)
 
     def exit(self):
         self.parent.qApp.closeAllWindows()
