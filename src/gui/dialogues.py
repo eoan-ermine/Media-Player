@@ -232,6 +232,16 @@ class PlaylistDialog(QDialog):
             item = QRadioTableWidgetItem(f"{station['name']}", url=station["stream_url"])
             self.media_table.setItem(i, 0, item)
 
+    def search(self):
+        search_result = self.media_table.findItems(self.search_edit.text(), Qt.MatchContains)
+        to_show = [e.row() for e in search_result if e is not None]
+        for row in range(0, self.media_table.rowCount()):
+            if row in to_show:
+                self.media_table.showRow(row)
+            else:
+                self.media_table.hideRow(row)
+
     def init_signals(self):
         self.chooser.itemActivated.connect(self.draw_page)
         self.media_table.itemDoubleClicked.connect(self.open_media)
+        self.search_edit.editingFinished.connect(self.search)
