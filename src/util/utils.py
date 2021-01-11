@@ -10,13 +10,15 @@ IMAGE_FORMATS = ["bmp", "gif", "jpg", "jpeg", "png", "pbm", "pgm", "ppm", "xbm",
 VIDEO_FORMATS = ["avi", "mkv", "mp4", "flv", "mpeg", "mov", "ts", "m2ts", "wmv", "rm", "rmvb", "ogm", "webm",
                  "m3u8"]
 AUDIO_FORMATS = ["mp3", "flc", "m4a", "aac", "ogg", "3gp", "amr", "ape", "mka", "opus", "wavpack", "musepack"]
+PLAYLIST_FORMATS = ["m3u"]
 
-FORMATS = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
+FORMATS = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS + PLAYLIST_FORMATS
 
-ALL_FILTER = "All ({})".format(" ".join(["*.{}".format(e) for e in IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS]))
+ALL_FILTER = "All ({})".format(" ".join(["*.{}".format(e) for e in FORMATS]))
 IMAGE_FILTER = "Images ({})".format(" ".join(["*.{}".format(e) for e in IMAGE_FORMATS]))
 VIDEO_FILTER = "Videos ({})".format(" ".join(["*.{}".format(e) for e in VIDEO_FORMATS]))
 AUDIO_FILTER = "Audios ({})".format(" ".join(["*.{}".format(e) for e in AUDIO_FORMATS]))
+PLAYLIST_FILTER = "Playlists ({})".format(" ".join(["*.{}".format(e) for e in PLAYLIST_FORMATS]))
 
 VERSION = "0.0.1"
 REVISION = "0"
@@ -27,7 +29,8 @@ class FILE_FORMAT(Enum):
     VIDEO = 1,
     AUDIO = 2,
     URL = 3,
-    INVALID = 4,
+    PLAYLIST = 4,
+    INVALID = 5,
 
 
 def get_dir_files(path):
@@ -51,6 +54,8 @@ def get_format(filename):
         return FILE_FORMAT.VIDEO
     elif ext in AUDIO_FORMATS:
         return FILE_FORMAT.AUDIO
+    elif ext in PLAYLIST_FORMATS:
+        return FILE_FORMAT.PLAYLIST
     return FILE_FORMAT.INVALID
 
 

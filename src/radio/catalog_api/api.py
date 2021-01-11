@@ -54,7 +54,7 @@ def check_fields(fields: list[str]):
     return not any([1 for field in fields if field not in allowed_fields])
 
 
-conn = sqlite3.connect("database.db")
+conn = sqlite3.connect("radio_stations.db")
 c = conn.cursor()
 c.row_factory = dict_factory
 
