@@ -34,3 +34,7 @@ qt5-applications==5.15.1.1
 six==1.15.0
 webcolors==1.11.1
 Werkzeug==1.0.1
+
+requests~=2.25.0
+bs4~=0.0.1
+beautifulsoup4~=4.9.3

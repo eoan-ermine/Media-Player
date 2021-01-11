@@ -12,7 +12,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19',
 }
 
-conn = sqlite3.connect("database.db")
+conn = sqlite3.connect("radio_stations.db")
 c = conn.cursor()
 
 for i, url in enumerate(urls):

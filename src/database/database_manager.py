@@ -46,7 +46,7 @@ class DatabaseManager:
 
 
 class RecentFilesManager:
-    def __init__(self, filename: str = "./resources/last_files.db"):
+    def __init__(self, filename: str = "./database/resources/last_files.db"):
         self.db_manager = DatabaseManager(filename)
 
     def write_recent_file(self, path: str):
