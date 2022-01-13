@@ -14,7 +14,7 @@ matplotlib==3.3.2
 mido==1.2.9
 more-itertools==8.6.0
 music21==6.1.0
-numpy==1.19.3
+numpy==1.21.0
 pefile==2019.4.18
 Pillow==9.0.0
 pygame==2.0.0
